@@ -71,7 +71,7 @@ EMAIL_HOST = env.str('EMAIL_HOST', default='mailhog')
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [
-    ('Samuel Marchal', 'contact@zes.sx'),
+    ('Samuel Marchal', 'contact@smarchal.com'),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
