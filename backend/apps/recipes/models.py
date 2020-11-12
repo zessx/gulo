@@ -17,6 +17,16 @@ class Tag(models.Model):
 
 
 class Recipe(models.Model):
+    DISH_STARTER = 'Starter'
+    DISH_MAIN_COURSE = 'Main course'
+    DISH_DESSERT = 'Dessert'
+
+    DISH_CHOICES = [
+        (DISH_STARTER, DISH_STARTER),
+        (DISH_MAIN_COURSE, DISH_MAIN_COURSE),
+        (DISH_DESSERT, DISH_DESSERT),
+    ]
+
     title = models.CharField(
         verbose_name='Title',
         max_length=255
@@ -24,6 +34,12 @@ class Recipe(models.Model):
     picture = models.ImageField(
         verbose_name='Picture',
         blank=True
+    )
+    dish = models.CharField(
+        verbose_name='Dish',
+        choices=DISH_CHOICES,
+        max_length=50,
+        default=DISH_MAIN_COURSE
     )
     duration = models.CharField(
         verbose_name='Duration',

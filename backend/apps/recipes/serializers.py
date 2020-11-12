@@ -50,6 +50,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = [
             'title',
             'picture',
+            'dish',
             'duration',
             'portions',
             'tags',
