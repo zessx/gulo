@@ -4,7 +4,8 @@ from django.db import models
 class Tag(models.Model):
     name = models.CharField(
         verbose_name='Name',
-        max_length=50
+        max_length=50,
+        unique=True
     )
 
     class Meta:
