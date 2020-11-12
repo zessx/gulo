@@ -95,8 +95,28 @@ class StepViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
         if not recipe:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        queryset = recipe.steps.all().order_by('order')
-        return Response(status=status.HTTP_200_OK, data=StepSerializer(queryset, many=True).data)
+
+        step = Step(text=request.data['text'], order=recipe.steps.count(), recipe_id=recipe.pk)
+        step.save()
+
+        try:
+            recipe.move_step(step, request.data['order'])
+        except IndexError as err:
+            pass
+
+        return Response(status=status.HTTP_200_OK, data=StepSerializer(step).data)
+
+    def destroy(self, request, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
+        if not recipe:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        step = self.get_object()
+        step.delete()
+
+        recipe.reorder_steps()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(methods=['put'], detail=True, url_path='move', url_name='recipe-steps_move')
     def move(self, request, pk=None, *args, **kwargs):
@@ -106,9 +126,11 @@ class StepViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
         if not recipe:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
         step = self.get_object()
         if not step:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
         try:
             recipe.move_step(step, request.data['order'])
         except Step.DoesNotExist:

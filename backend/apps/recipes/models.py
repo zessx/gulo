@@ -66,12 +66,12 @@ class Recipe(models.Model):
         """
         Move a steps, and update all other steps order
         """
+        order = int(order)
         if not isinstance(step, Step):
             raise TypeError('Step must be an instance of Step.')
         if not (0 <= order < self.steps.count()):
             raise IndexError('Order is out of range.')
 
-        # Update orders
         if order > step.order:
             steps_to_move = self.steps.filter(order__gt=step.order, order__lte=order)
             incrementer = -1
@@ -85,6 +85,16 @@ class Recipe(models.Model):
 
         step.order = order
         step.save()
+
+    def reorder_steps(self):
+        """
+        Call this function after deleting a step, to fill missing orders
+        """
+        order = 0
+        for step in self.steps.all():
+            step.order = order
+            step.save()
+            order += 1
 
 
 class Ingredient(models.Model):
@@ -123,6 +133,7 @@ class Ingredient(models.Model):
         verbose_name='Unit',
         choices=UNIT_CHOICES,
         max_length=50,
+        default='',
         blank=True
     )
 
