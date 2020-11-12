@@ -9,12 +9,20 @@ from django.template.loader import render_to_string
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from apps.recipes.models import Recipe, Tag, Ingredient, Step
 from apps.recipes.serializers import RecipeSerializer, RecipeWriteSerializer, TagSerializer, IngredientSerializer, StepSerializer
 
+# viewsets.ModelViewSet functions to be override:
+# - list()
+# - retrieve()
+# - create()
+# - update()
+# - partial_update()
+# - destroy()
 
-class RecipeViewSet(viewsets.ModelViewSet):
+class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
     Allows recipes to be viewed or edited.
     """
@@ -35,77 +43,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """
         queryset = Tag.objects.all()
         return Response(status=status.HTTP_200_OK, data=TagSerializer(queryset, many=True).data)
-
-    @action(methods=['get', 'post'], detail=True, permission_classes=[permissions.IsAuthenticated],
-            url_path='steps', url_name='recipe_steps')
-    def steps(self, request, pk=None):
-        """
-        Allows to get, add and delete recipe steps.
-        """
-        if request.method == 'POST':
-            return self.add_step(request, pk=pk)
-        else:
-            return self.get_steps(request, pk=pk)
-
-    def get_steps(self, request, pk=None):
-        """
-        Retrieve a recipe steps.
-        """
-        recipe = self.get_object()
-        if not recipe:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        queryset = recipe.steps
-        return Response(status=status.HTTP_200_OK, data=StepSerializer(queryset, many=True).data)
-
-    def add_step(self, request, pk=None):
-        """
-        Add a new step to a recipe.
-        """
-        recipe = self.get_object()
-        if not recipe:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        step = Step(
-            order=recipe.steps.count(),
-            text=request.data['text'],
-            recipe_id=recipe.pk
-        )
-        step.save()
-        return Response(status=status.HTTP_200_OK)
-
-    @action(methods=['put'], detail=True, permission_classes=[permissions.IsAuthenticated],
-            url_path='steps/move', url_name='recipe_steps_move')
-    def move_step(self, request, pk=None):
-        """
-        Move a recipe steps.
-        """
-        recipe = self.get_object()
-        if not recipe:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        try:
-            step = Step.objects.get(pk=request.data['step'])
-        except Step.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        order = request.data['order']
-        if not (0 <= order < recipe.steps.count()):
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        # Update orders
-        if order > step.order:
-            steps_to_move = recipe.steps.filter(order__gt=step.order, order__lte=order)
-            incrementer = -1
-        else:
-            steps_to_move = recipe.steps.filter(order__gte=order, order__lt=step.order)
-            incrementer = 1
-
-        for s in steps_to_move:
-            s.order += incrementer
-            s.save()
-
-        step.order = order
-        step.save()
-
-        return Response(status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=False, permission_classes=[permissions.IsAuthenticated],
             url_path='search', url_name='recipe_search')
@@ -130,8 +67,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 
 
-
-class IngredientViewSet(viewsets.ModelViewSet):
+class IngredientViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
     Allows recipe ingredients to be viewed or edited.
     """
@@ -140,10 +76,44 @@ class IngredientViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class StepViewSet(viewsets.ModelViewSet):
+class StepViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
     Allows recipe steps to be viewed or edited.
     """
     queryset = Step.objects.all()
     serializer_class = StepSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
+        if not recipe:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        queryset = recipe.steps.all().order_by('order')
+        return Response(status=status.HTTP_200_OK, data=StepSerializer(queryset, many=True).data)
+
+    def create(self, request, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
+        if not recipe:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        queryset = recipe.steps.all().order_by('order')
+        return Response(status=status.HTTP_200_OK, data=StepSerializer(queryset, many=True).data)
+
+    @action(methods=['put'], detail=True, url_path='move', url_name='recipe-steps_move')
+    def move(self, request, pk=None, *args, **kwargs):
+        """
+        Move a step.
+        """
+        recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
+        if not recipe:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        step = self.get_object()
+        if not step:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            recipe.move_step(step, request.data['order'])
+        except Step.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except IndexError as err:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=str(err))
+
+        return Response(status=status.HTTP_200_OK)

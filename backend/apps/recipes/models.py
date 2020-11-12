@@ -62,6 +62,30 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
+    def move_step(self, step, order: int):
+        """
+        Move a steps, and update all other steps order
+        """
+        if not isinstance(step, Step):
+            raise TypeError('Step must be an instance of Step.')
+        if not (0 <= order < self.steps.count()):
+            raise IndexError('Order is out of range.')
+
+        # Update orders
+        if order > step.order:
+            steps_to_move = self.steps.filter(order__gt=step.order, order__lte=order)
+            incrementer = -1
+        else:
+            steps_to_move = self.steps.filter(order__gte=order, order__lt=step.order)
+            incrementer = 1
+
+        for s in steps_to_move:
+            s.order += incrementer
+            s.save()
+
+        step.order = order
+        step.save()
+
 
 class Ingredient(models.Model):
     UNIT_CL = 'cl'
