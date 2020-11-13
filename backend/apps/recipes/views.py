@@ -75,6 +75,19 @@ class IngredientViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    # Default create() function does not work
+    # because of unrecognized recipe_id
+    # No idea why.
+    def create(self, request, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
+        if not recipe:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        ingredient = Ingredient(name=request.data['name'], quantity=request.data['quantity'], unit=request.data['unit'], recipe_id=recipe.pk)
+        ingredient.save()
+
+        return Response(status=status.HTTP_200_OK, data=IngredientSerializer(ingredient).data)
+
 
 class StepViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
