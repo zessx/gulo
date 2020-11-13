@@ -4,6 +4,7 @@ from uuid import uuid4
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 
 from rest_framework import viewsets, status, permissions
@@ -83,7 +84,24 @@ class IngredientViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         if not recipe:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        ingredient = Ingredient(name=request.data['name'], quantity=request.data['quantity'], unit=request.data['unit'], recipe_id=recipe.pk)
+        args = {
+            'name': request.data['name'],
+            'unit': request.data['unit'],
+            'recipe_id': recipe.pk
+        }
+
+        try:
+            args['quantity'] = request.data['quantity']
+        except KeyError:
+            pass
+
+        ingredient = Ingredient(**args)
+
+        try:
+            ingredient.full_clean()
+        except ValidationError as err:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=err)
+
         ingredient.save()
 
         return Response(status=status.HTTP_200_OK, data=IngredientSerializer(ingredient).data)

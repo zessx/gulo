@@ -33,7 +33,8 @@ class Recipe(models.Model):
     )
     picture = models.ImageField(
         verbose_name='Picture',
-        blank=True
+        blank=True,
+        null=True
     )
     dish = models.CharField(
         verbose_name='Dish',
@@ -44,12 +45,14 @@ class Recipe(models.Model):
     duration = models.CharField(
         verbose_name='Duration',
         max_length=255,
-        blank=True
+        blank=True,
+        null=True
     )
     portions = models.CharField(
         verbose_name='Portions',
         max_length=255,
-        blank=True
+        blank=True,
+        null=True
     )
     tags = models.ManyToManyField(
         Tag
@@ -127,14 +130,16 @@ class Ingredient(models.Model):
     )
     quantity = models.FloatField(
         verbose_name='Quantity',
-        blank=True
+        blank=True,
+        null=True
     )
     unit = models.CharField(
         verbose_name='Unit',
         choices=UNIT_CHOICES,
         max_length=50,
         default='',
-        blank=True
+        blank=True,
+        null=True
     )
 
     class Meta:
@@ -142,8 +147,10 @@ class Ingredient(models.Model):
         verbose_name_plural = 'Ingredients'
 
     def __str__(self):
-        output  = self.quantity + ' ' if self.quantity else ''
-        output += self.unit + ' ' if self.unit else ''
+        output = ''
+        if self.quantity:
+            output += str(self.quantity)
+            output += self.unit + ' ' if self.unit else ''
         output += self.name
         return output
 
