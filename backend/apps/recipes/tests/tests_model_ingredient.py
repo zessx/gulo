@@ -6,7 +6,7 @@ from apps.recipes.models import Recipe, Ingredient
 
 class IngredientModelTests(TestCase):
 
-    @tag('fast', 'ingredients', 'validators')
+    @tag('fast', 'model', 'ingredients')
     def test_was_created_with_known_unit(self):
         try:
             r = Recipe(title='Recipe')
@@ -17,7 +17,7 @@ class IngredientModelTests(TestCase):
             self.assertFalse('is not a valid choice' in err)
             pass
 
-    @tag('fast', 'ingredients', 'validators')
+    @tag('fast', 'model', 'ingredients')
     def test_was_created_with_unknown_unit(self):
         try:
             r = Recipe(title='Recipe')

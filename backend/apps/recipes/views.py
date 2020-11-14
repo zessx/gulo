@@ -86,11 +86,11 @@ class IngredientViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         args = {
             'name': request.data['name'],
-            'unit': request.data['unit'],
             'recipe_id': recipe.pk
         }
 
         try:
+            args['unit'] = request.data['unit']
             args['quantity'] = request.data['quantity']
         except KeyError:
             pass
@@ -104,7 +104,7 @@ class IngredientViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         ingredient.save()
 
-        return Response(status=status.HTTP_200_OK, data=IngredientSerializer(ingredient).data)
+        return Response(status=status.HTTP_201_CREATED, data=IngredientSerializer(ingredient).data)
 
 
 class StepViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -135,7 +135,7 @@ class StepViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         except IndexError as err:
             pass
 
-        return Response(status=status.HTTP_200_OK, data=StepSerializer(step).data)
+        return Response(status=status.HTTP_201_CREATED, data=StepSerializer(step).data)
 
     def destroy(self, request, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs['parent_lookup_recipe_id'])
