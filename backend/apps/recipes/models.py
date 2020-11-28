@@ -1,55 +1,60 @@
 from django.db import models
-
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
 
 class Tag(models.Model):
     name = models.CharField(
-        verbose_name='Name',
+        verbose_name=_('name'),
         max_length=50,
         unique=True
     )
 
     class Meta:
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
+        verbose_name = _('tag')
+        verbose_name_plural = _('tags')
 
     def __str__(self):
         return self.name
 
 
 class Recipe(models.Model):
-    DISH_STARTER = 'Starter'
-    DISH_MAIN_COURSE = 'Main course'
-    DISH_DESSERT = 'Dessert'
+    DISH_STARTER     = 'starter'
+    DISH_MAIN_COURSE = 'main_course'
+    DISH_DESSERT     = 'dessert'
 
-    DISH_CHOICES = [
-        (DISH_STARTER, DISH_STARTER),
-        (DISH_MAIN_COURSE, DISH_MAIN_COURSE),
-        (DISH_DESSERT, DISH_DESSERT),
-    ]
+    DISHES = {
+        DISH_STARTER:     _('Starter'),
+        DISH_MAIN_COURSE: _('Main course'),
+        DISH_DESSERT:     _('Dessert'),
+    }
 
     title = models.CharField(
-        verbose_name='Title',
+        verbose_name=_('title'),
         max_length=255
     )
     picture = models.ImageField(
-        verbose_name='Picture',
+        verbose_name=_('picture'),
         blank=True,
         null=True
     )
     dish = models.CharField(
-        verbose_name='Dish',
-        choices=DISH_CHOICES,
+        verbose_name=_('dish'),
+        choices=[
+            (DISH_STARTER, _('Starter')),
+            (DISH_MAIN_COURSE, _('Main course')),
+            (DISH_DESSERT, _('Dessert')),
+        ],
         max_length=50,
         default=DISH_MAIN_COURSE
     )
     duration = models.CharField(
-        verbose_name='Duration',
+        verbose_name=_('duration'),
         max_length=255,
         blank=True,
         null=True
     )
     portions = models.CharField(
-        verbose_name='Portions',
+        verbose_name=_('portions'),
         max_length=255,
         blank=True,
         null=True
@@ -59,8 +64,8 @@ class Recipe(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Recipe'
-        verbose_name_plural = 'Recipes'
+        verbose_name = _('recipe')
+        verbose_name_plural = _('recipes')
 
     def __str__(self):
         return self.title
@@ -71,9 +76,9 @@ class Recipe(models.Model):
         """
         order = int(order)
         if not isinstance(step, Step):
-            raise TypeError('Step must be an instance of Step.')
+            raise TypeError(_('Step must be an instance of Step.'))
         if not (0 <= order < self.steps.count()):
-            raise IndexError('Order is out of range.')
+            raise IndexError(_('Order is out of range.'))
 
         if order > step.order:
             steps_to_move = self.steps.filter(order__gt=step.order, order__lte=order)
@@ -101,23 +106,23 @@ class Recipe(models.Model):
 
 
 class Ingredient(models.Model):
-    UNIT_CL = 'cl'
-    UNIT_L = 'l'
-    UNIT_G = 'g'
-    UNIT_KG = 'kg'
-    UNIT_TS = 'tsp.'
-    UNIT_TBSP = 'tbsp.'
+    UNIT_CL    = 'cl'
+    UNIT_L     = 'l'
+    UNIT_G     = 'g'
+    UNIT_KG    = 'kg'
+    UNIT_TS    = 'ts'
+    UNIT_TBSP  = 'tbsp'
     UNIT_PINCH = 'pinch'
 
-    UNIT_CHOICES = [
-        (UNIT_CL, UNIT_CL),
-        (UNIT_L, UNIT_L),
-        (UNIT_G, UNIT_G),
-        (UNIT_KG, UNIT_KG),
-        (UNIT_TS, UNIT_TS),
-        (UNIT_TBSP, UNIT_TBSP),
-        (UNIT_PINCH, UNIT_PINCH),
-    ]
+    UNITS = {
+        UNIT_CL:    _('cl'),
+        UNIT_L:     _('l'),
+        UNIT_G:     _('g'),
+        UNIT_KG:    _('kg'),
+        UNIT_TS:    _('tsp.'),
+        UNIT_TBSP:  _('tbsp.'),
+        UNIT_PINCH: _('pinch'),
+    }
 
     recipe = models.ForeignKey(
         Recipe,
@@ -125,17 +130,25 @@ class Ingredient(models.Model):
         on_delete=models.CASCADE
     )
     name = models.CharField(
-        verbose_name='Name',
+        verbose_name=_('name'),
         max_length=255
     )
     quantity = models.FloatField(
-        verbose_name='Quantity',
+        verbose_name=_('quantity'),
         blank=True,
         null=True
     )
     unit = models.CharField(
-        verbose_name='Unit',
-        choices=UNIT_CHOICES,
+        verbose_name=_('unit'),
+        choices=[
+            (UNIT_CL, _('cl')),
+            (UNIT_L, _('l')),
+            (UNIT_G, _('g')),
+            (UNIT_KG, _('kg')),
+            (UNIT_TS, _('tsp.')),
+            (UNIT_TBSP, _('tbsp.')),
+            (UNIT_PINCH, _('pinch')),
+        ],
         max_length=50,
         default='',
         blank=True,
@@ -143,14 +156,17 @@ class Ingredient(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Ingredient'
-        verbose_name_plural = 'Ingredients'
+        verbose_name = _('ingredient')
+        verbose_name_plural = _('ingredients')
 
     def __str__(self):
         output = ''
         if self.quantity:
             output += str(self.quantity)
-            output += self.unit + ' ' if self.unit else ''
+            if self.unit == self.UNIT_PINCH:
+                output += ngettext('pinch', 'pinches', self.quantity) + ' '
+            elif self.unit:
+                output += self.UNITS[self.unit] + ' '
         output += self.name
         return output
 
@@ -162,15 +178,15 @@ class Step(models.Model):
         on_delete=models.CASCADE
     )
     order = models.PositiveIntegerField(
-        verbose_name='Order'
+        verbose_name=_('order')
     )
     text = models.TextField(
-        verbose_name='Text'
+        verbose_name=_('text')
     )
 
     class Meta:
-        verbose_name = 'Step'
-        verbose_name_plural = 'Steps'
+        verbose_name = _('step')
+        verbose_name_plural = _('steps')
 
     def __str__(self):
-        return 'Step {}'.format(self.order)
+        return _('Step %(order)d') % {'order': self.order}

@@ -12,6 +12,10 @@ ENV PYTHONFAULTHANDLER=1 \
 COPY ./requirements.txt /
 RUN pip install -r ./requirements.txt
 
+# install gettext for i18n
+RUN apt-get update && apt-get install -y \
+    gettext
+
 # upload scripts
 COPY ./scripts/entrypoint.sh ./scripts/start.sh ./scripts/gunicorn.sh /
 

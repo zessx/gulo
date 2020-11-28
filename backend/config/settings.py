@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 # DEBUG
@@ -102,6 +103,10 @@ TIME_ZONE = 'UTC'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = [
+    ('en', 'English'),
+    ('fr', 'French'),
+]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
