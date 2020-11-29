@@ -72,7 +72,7 @@ class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         recipes = Recipe.objects.all()
         try:
-            recipes = recipes.filter(title__icontains=request.data['text']) | recipes.filter(steps__text__icontains=request.data['text'])
+            recipes = recipes.filter(title__icontains=request.data['text']) | recipes.filter(steps__text__icontains=request.data['text']) | recipes.filter(ingredients__name__icontains=request.data['text'])
         except KeyError:
             pass
 
