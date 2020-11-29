@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recipes', '0008_auto_20201113_2259'),
+        ('recipes', '0008_blankable_fields'),
     ]
 
     operations = [

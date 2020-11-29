@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recipes', '0003_auto_20201111_2145'),
+        ('recipes', '0003_tag_name_maxlength'),
     ]
 
     operations = [
