@@ -23,6 +23,32 @@ from apps.recipes.serializers import RecipeSerializer, RecipeWriteSerializer, Ta
 # - partial_update()
 # - destroy()
 
+
+class TagViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    """
+    Allows tags to be viewed or edited.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['post'], detail=False, permission_classes=[permissions.IsAuthenticated],
+            url_path='search', url_name='tag_search')
+    def search(self, request, pk=None):
+        """
+        Search tags.
+        """
+        args = {}
+
+        tags = Tag.objects.all()
+        try:
+            tags = tags.filter(name__icontains=request.data['text'])
+        except KeyError:
+            pass
+
+        return Response(status=status.HTTP_200_OK, data=TagSerializer(tags.distinct(), many=True).data)
+
+
 class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
     Allows recipes to be viewed or edited.
@@ -36,18 +62,9 @@ class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             return RecipeSerializer
         return RecipeWriteSerializer
 
-    @action(methods=['get'], detail=False, permission_classes=[permissions.IsAuthenticated],
-            url_path='tags', url_name='tags')
-    def get_all_tags(self, request, pk=None):
-        """
-        Retrieve all tags.
-        """
-        queryset = Tag.objects.all()
-        return Response(status=status.HTTP_200_OK, data=TagSerializer(queryset, many=True).data)
-
     @action(methods=['post'], detail=False, permission_classes=[permissions.IsAuthenticated],
             url_path='search', url_name='recipe_search')
-    def search(self, request, pk=None):
+    def search(self, request, pk=None, parent_lookup_recipe=None):
         """
         Search recipes.
         """
