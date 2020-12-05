@@ -4,7 +4,7 @@
       <router-link tag="li" :to="page.url" v-for="page in pages" :key="page.url" :class="{ selected: currentLocation.indexOf(page.url) > -1 }">
         <a>
           <BaseIcon :name="page.icon" />
-          <p>{{ page.label }}</p>
+          <p>{{ $t('navbar.' + page.url) }}</p>
         </a>
       </router-link>
     </ul>
@@ -15,30 +15,27 @@
 export default {
   name: 'Navbar',
   props: {
-    page: String,
+    page: String
   },
-  data: function() {
+  data: function () {
     return {
       pages: [
         {
           url: 'recipes',
-          icon: 'recipe',
-          label: 'Recipes',
+          icon: 'recipe'
         },
         {
           url: 'agenda',
-          icon: 'menu',
-          label: 'Agenda',
+          icon: 'menu'
         },
         {
           url: 'shopping',
-          icon: 'list',
-          label: 'Shopping',
+          icon: 'list'
         },
       ],
-      currentLocation: window.location.pathname,
+      currentLocation: window.location.pathname
     }
-  },
+  }
 }
 </script>
 
@@ -73,12 +70,13 @@ li {
 
   i {
     color: var(--background-50);
+    height: 1.5em;
   }
 
   p {
     margin: 0;
     margin-top: var(--spacing-01);
-    font-size: 0.875rem;
+    font-size: 0.875em;
     font-weight: bold;
   }
 

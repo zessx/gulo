@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Shopping</h1>
+    <h1>{{ $t('navbar.shopping') }}</h1>
 
     <Navbar page="shopping" />
   </div>
