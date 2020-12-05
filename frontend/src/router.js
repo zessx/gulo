@@ -11,7 +11,7 @@ const routes = [
   { path: '/recipes', component: Recipes },
   { path: '/agenda', component: Agenda },
   { path: '/shopping', component: Shopping },
-  { path: '/styleguide', component: Styleguide },
+  { path: '/styleguide', component: Styleguide }
 ]
 
 Vue.use(VueRouter)

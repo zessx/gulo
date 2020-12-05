@@ -12,7 +12,7 @@ export default {
     label: String,
     icon: String,
     color: String
-  },
+  }
 }
 </script>
 
