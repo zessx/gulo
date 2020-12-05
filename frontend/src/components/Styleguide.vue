@@ -3,11 +3,11 @@
     <h1>Styleguide</h1>
 
     <BaseMessage message="Information message" icon="info" />
-    <BaseMessage message="Information message" icon="info" color="validation" />
+    <BaseMessage message="Information message" icon="info" color="success" />
     <BaseMessage message="Information message" icon="info" color="warning" />
-    <BaseMessage message="Information message" icon="info" color="alert" />
+    <BaseMessage message="Information message" icon="info" color="error" />
 
-    <BaseButton label="Delete" class="vertical" icon="delete" color="alert" />
+    <BaseButton label="Delete" class="vertical" icon="delete" color="error" />
     <BaseButton label="Large button" />
     <BaseButton label="Small button" class="small" />
     <BaseButton label="Icon button" class="small" icon="add" />
@@ -19,9 +19,9 @@
     <BaseButton label="Full button" class="full" />
     <BaseButton label="Full centered button" class="full small centered" />
     <BaseButton label="Another test" class="small full centered" icon="add" color="secondary" />
-    <BaseButton label="Alert button" class="small full centered" icon="recipe" color="alert" />
+    <BaseButton label="Alert button" class="small full centered" icon="recipe" color="error" />
     <BaseButton label="Warning button" class="small full centered" icon="add" color="warning" />
-    <BaseButton label="Validation butotn" class="small full centered" icon="add" color="validation" />
+    <BaseButton label="Validation butotn" class="small full centered" icon="add" color="success" />
     <BaseButton class="full secondary centered" icon="add" />
 
     <Navbar />

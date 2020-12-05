@@ -27,17 +27,17 @@ export default {
   --primary-50: #7a78f5;
   --primary-40: #e5e4fd;
 
-  --alert-60: #c7052b;
-  --alert-50: #fa486b;
-  --alert-40: #ffe2e8;
+  --error-60: #c7052b;
+  --error-50: #fa486b;
+  --error-40: #ffe2e8;
 
   --warning-60: #da7206;
   --warning-50: #faa348;
   --warning-40: #fef0e1;
 
-  --validation-60: #119b71;
-  --validation-50: #17d098;
-  --validation-40: #c6f9e9;
+  --success-60: #119b71;
+  --success-50: #17d098;
+  --success-40: #c6f9e9;
 
   --background-70: #343a62;
   --background-60: #7b82b9;

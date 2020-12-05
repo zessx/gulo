@@ -86,12 +86,12 @@ button {
     }
   }
 
-  &.alert {
-    background-color: var(--alert-50);
+  &.error {
+    background-color: var(--error-50);
 
     &:hover,
     &:focus {
-      background-color: var(--alert-60);
+      background-color: var(--error-60);
     }
   }
 
@@ -104,12 +104,12 @@ button {
     }
   }
 
-  &.validation {
-    background-color: var(--validation-50);
+  &.success {
+    background-color: var(--success-50);
 
     &:hover,
     &:focus {
-      background-color: var(--validation-60);
+      background-color: var(--success-60);
     }
   }
 

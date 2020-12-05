@@ -43,9 +43,9 @@ export default {
     transform: translateY(0.07em);
   }
 
-  &.alert {
-    color: var(--alert-50);
-    background-color: var(--alert-40);
+  &.error {
+    color: var(--error-50);
+    background-color: var(--error-40);
   }
 
   &.warning {
@@ -53,9 +53,9 @@ export default {
     background-color: var(--warning-40);
   }
 
-  &.validation {
-    color: var(--validation-50);
-    background-color: var(--validation-40);
+  &.success {
+    color: var(--success-50);
+    background-color: var(--success-40);
   }
 }
 </style>
