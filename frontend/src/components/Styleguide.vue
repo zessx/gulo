@@ -2,6 +2,11 @@
   <div class="container">
     <h1>Styleguide</h1>
 
+    <BaseMessage message="Information message" icon="info" />
+    <BaseMessage message="Information message" icon="info" color="validation" />
+    <BaseMessage message="Information message" icon="info" color="warning" />
+    <BaseMessage message="Information message" icon="info" color="alert" />
+
     <BaseButton label="Delete" class="vertical" icon="delete" color="alert" />
     <BaseButton label="Large button" />
     <BaseButton label="Small button" class="small" />
@@ -34,6 +39,9 @@ h1 {
   text-align: center;
 }
 button {
+  margin: 0.5em 0;
+}
+.message {
   margin: 0.5em 0;
 }
 </style>
