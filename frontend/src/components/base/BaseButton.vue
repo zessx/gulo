@@ -43,6 +43,7 @@ button {
   line-height: 1em;
   white-space: nowrap;
   transition: background-color var(--speed-normal);
+  height: calc(1em + 2 * var(--spacing-03));
 
   i {
     height: 1em;
@@ -67,6 +68,7 @@ button {
   &[data-size="small"] {
     padding: var(--spacing-02);
     line-height: 0.75em;
+    height: calc(0.75em + 2 * var(--spacing-02));
 
     i {
       height: 0.75em;
@@ -77,6 +79,7 @@ button {
   &[data-size="large"] {
     padding: var(--spacing-04);
     line-height: 1.5em;
+    height: calc(1.5em + 2 * var(--spacing-04));
 
     i {
       height: 1.5em;

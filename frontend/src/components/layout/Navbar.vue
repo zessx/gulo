@@ -74,6 +74,7 @@ li {
   i {
     color: var(--background-50);
     height: 1.5em;
+    width: 1.5em;
   }
 
   p {
