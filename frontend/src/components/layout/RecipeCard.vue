@@ -6,7 +6,7 @@
       <footer>
         <div class="duration" v-if="recipe.duration">
           <BaseIcon name="timing" />
-          <span>{{ recipe.duration }}</span>
+          <span>{{ formatDuration(recipe.duration) }}</span>
         </div>
         <div class="portions" v-if="recipe.portions">
           <BaseIcon name="portion" />
@@ -19,12 +19,19 @@
 </template>
 
 <script>
+import formatDuration from '@/utils/formatDuration'
+
 export default {
   name: 'RecipeCard',
   props: {
     recipe: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    formatDuration: function (duration) {
+      return formatDuration({ duration }).formatted
     }
   }
 }

@@ -60,7 +60,7 @@ export default {
           id: 7,
           title: 'Wraps',
           image: 'https://www.placecage.com/206/206',
-          duration: 60,
+          duration: 65,
           portions: 4
         }
       ]
