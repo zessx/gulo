@@ -65,13 +65,24 @@ export default {
   --speed-slow: 0.5s;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Arimo', sans-serif;
   color: var(--grey-70);
   background: var(--grey-10);
 }
 
-* {
-  box-sizing: border-box;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 </style>

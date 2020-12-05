@@ -1,10 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import ExampleComponent from '@/components/ExampleComponent.vue'
+import Styleguide from '@/components/Styleguide.vue'
+import Recipes from '@/components/Recipes.vue'
+import Agenda from '@/components/Agenda.vue'
+import Shopping from '@/components/Shopping.vue'
 
 const routes = [
-  { path: '*', component: ExampleComponent }
+  { path: '/', redirect: '/recipes' },
+  { path: '/recipes', component: Recipes },
+  { path: '/agenda', component: Agenda },
+  { path: '/shopping', component: Shopping },
+  { path: '/styleguide', component: Styleguide },
 ]
 
 Vue.use(VueRouter)

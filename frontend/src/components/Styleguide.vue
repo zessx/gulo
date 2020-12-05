@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h1>Gulo</h1>
+    <h1>Styleguide</h1>
+
     <BaseButton label="Delete" class="vertical" icon="delete" color="alert" />
     <BaseButton label="Large button" />
     <BaseButton label="Small button" class="small" />
@@ -17,12 +18,14 @@
     <BaseButton label="Warning button" class="small full centered" icon="add" color="warning" />
     <BaseButton label="Validation butotn" class="small full centered" icon="add" color="validation" />
     <BaseButton class="full secondary centered" icon="add" />
+
+    <Navbar />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'FirstComponent'
+  name: 'Styleguide'
 }
 </script>
 
