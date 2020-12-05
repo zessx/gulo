@@ -6,7 +6,10 @@
 export default {
   name: 'Icon',
   props: {
-    name: String
+    name: {
+      type: String,
+      required: true
+    }
   },
   computed: {
     svg: function () {

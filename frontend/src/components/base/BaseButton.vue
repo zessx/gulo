@@ -1,5 +1,5 @@
 <template>
-  <button :class="color">
+  <button :class="type">
     <BaseIcon v-if="icon" :name="icon" />
     <p v-if="label">{{ label }}</p>
   </button>
@@ -11,7 +11,13 @@ export default {
   props: {
     label: String,
     icon: String,
-    color: String
+    type: {
+      type: String,
+      default: 'primary',
+      validator: function (value) {
+        return ['primary', 'secondary', 'success', 'warning', 'error'].indexOf(value) !== -1
+      }
+    }
   }
 }
 </script>

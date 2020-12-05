@@ -1,5 +1,5 @@
 <template>
-  <div class="message" :class="color">
+  <div class="message" :class="type">
     <BaseIcon v-if="icon" :name="icon" />
     <p>{{ message }}</p>
   </div>
@@ -9,9 +9,21 @@
 export default {
   name: 'Message',
   props: {
-    message: String,
-    icon: String,
-    color: String
+    message: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      default: 'info'
+    },
+    type: {
+      type: String,
+      default: 'info',
+      validator: function (value) {
+        return ['info', 'success', 'warning', 'error'].indexOf(value) !== -1
+      }
+    }
   }
 }
 </script>
