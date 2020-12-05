@@ -10,7 +10,7 @@ export default {
   },
   computed: {
     svg: function () {
-      return require(`!html-loader!./../../../assets/icons/${this.name}.svg`)
+      return require(`!html-loader!@/assets/icons/${this.name}.svg`)
     }
   }
 }
