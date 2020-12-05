@@ -14,12 +14,11 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 Vue.config.productionTip = false
 
 /**
- * Require base components globally.
- * These components name MUST start with Base*
+ * Require components globally.
  */
-const requireComponent = require.context('./components', true, /Base[A-Z]\w+\.(vue|js)$/)
-requireComponent.keys().forEach(fileName => {
-  const componentConfig = requireComponent(fileName)
+const requireComponents = require.context('./components', true, /\w+\.(vue)$/)
+requireComponents.keys().forEach(fileName => {
+  const componentConfig = requireComponents(fileName)
   const componentName = upperFirst(
     camelCase(
       fileName
