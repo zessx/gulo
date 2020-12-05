@@ -5,9 +5,9 @@
 <script>
 export default {
   name: 'Icon',
-  props: [
-    'name',
-  ],
+  props: {
+    name: String,
+  },
   computed: {
     svg: function () {
       return require(`!html-loader!./../../../assets/icons/${this.name}.svg`)

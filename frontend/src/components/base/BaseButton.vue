@@ -1,5 +1,5 @@
 <template>
-  <button>
+  <button :class="color">
     <BaseIcon v-if="icon" :name="icon" />
     <p v-if="label">{{ label }}</p>
   </button>
@@ -8,10 +8,11 @@
 <script>
 export default {
   name: 'Button',
-  props: [
-    'label',
-    'icon',
-  ],
+  props: {
+    label: String,
+    icon: String,
+    color: String
+  },
 }
 </script>
 
@@ -54,6 +55,17 @@ button {
 
   &.centered {
     justify-content: center;
+  }
+
+  &.vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    i + p {
+      margin-top: var(--spacing-02);
+      margin-left: 0;
+    }
   }
 
   &.small {
