@@ -24,10 +24,12 @@ i.icon {
   color: inherit;
   font-style: normal;
   height: 1em;
+  width: 1em;
   display: inline-block;
 
   svg {
     height: 100%;
+    width: 100%;
     color: inherit;
     fill: currentColor;
   }

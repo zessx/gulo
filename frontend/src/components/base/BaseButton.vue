@@ -1,5 +1,5 @@
 <template>
-  <button :class="type">
+  <button :data-size="size" :data-type="type">
     <BaseIcon v-if="icon" :name="icon" />
     <p v-if="label">{{ label }}</p>
   </button>
@@ -11,11 +11,18 @@ export default {
   props: {
     label: String,
     icon: String,
+    size: {
+      type: String,
+      default: 'medium',
+      validator: function (value) {
+        return ['small', 'medium', 'large'].indexOf(value) !== -1
+      }
+    },
     type: {
       type: String,
       default: 'primary',
       validator: function (value) {
-        return ['primary', 'secondary', 'success', 'warning', 'error'].indexOf(value) !== -1
+        return ['primary', 'secondary', 'white', 'success', 'warning', 'error'].indexOf(value) !== -1
       }
     }
   }
@@ -25,19 +32,21 @@ export default {
 <style lang="scss" scoped>
 button {
   display: flex;
-  padding: var(--spacing-05);
+  padding: var(--spacing-03);
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   color: var(--white);
   background-color: var(--primary-50);
   font-weight: bold;
   border: none;
-  line-height: 1.2em;
+  font-size: 1rem;
+  line-height: 1em;
   white-space: nowrap;
   transition: background-color var(--speed-normal);
 
   i {
-    height: 1.2em;
+    height: 1em;
+    width: 1em;
 
     + p {
       margin-left: var(--spacing-03);
@@ -53,6 +62,26 @@ button {
   &:focus {
     outline: none;
     background-color: var(--primary-60);
+  }
+
+  &[data-size="small"] {
+    padding: var(--spacing-02);
+    line-height: 0.75em;
+
+    i {
+      height: 0.75em;
+      width: 0.75em;
+    }
+  }
+
+  &[data-size="large"] {
+    padding: var(--spacing-04);
+    line-height: 1.5em;
+
+    i {
+      height: 1.5em;
+      width: 1.5em;
+    }
   }
 
   &.full {
@@ -74,11 +103,7 @@ button {
     }
   }
 
-  &.small {
-    padding: var(--spacing-03);
-  }
-
-  &.secondary {
+  &[data-type="secondary"] {
     color: var(--background-70);
     background-color: var(--background-30);
 
@@ -92,7 +117,21 @@ button {
     }
   }
 
-  &.error {
+  &[data-type="white"] {
+    color: var(--background-70);
+    background-color: var(--white);
+
+    i {
+      color: var(--background-60);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--grey-10);
+    }
+  }
+
+  &[data-type="error"] {
     background-color: var(--error-50);
 
     &:hover,
@@ -101,7 +140,7 @@ button {
     }
   }
 
-  &.warning {
+  &[data-type="warning"] {
     background-color: var(--warning-50);
 
     &:hover,
@@ -110,7 +149,7 @@ button {
     }
   }
 
-  &.success {
+  &[data-type="success"] {
     background-color: var(--success-50);
 
     &:hover,
