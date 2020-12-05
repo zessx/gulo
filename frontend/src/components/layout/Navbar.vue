@@ -15,7 +15,10 @@
 export default {
   name: 'Navbar',
   props: {
-    page: String
+    page: {
+      type: String,
+      required: true
+    }
   },
   data: function () {
     return {
