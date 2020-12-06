@@ -3,7 +3,9 @@ from django.conf import settings
 from django.utils.translation import ngettext
 
 from apps.recipes.models import Recipe
-from apps.recipes.serializers import TagSerializer, IngredientSerializer, StepSerializer
+from .ingredient import IngredientSerializer
+from .tag import TagSerializer
+from .step import StepSerializer
 
 
 class RecipeSerializer(serializers.ModelSerializer):
