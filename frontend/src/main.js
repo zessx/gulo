@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import store from '@/store'
+import store from './store'
 import router from '@/router'
 
 import axios from 'axios'

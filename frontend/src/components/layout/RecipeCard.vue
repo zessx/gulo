@@ -1,6 +1,6 @@
 <template>
   <article class="recipe">
-    <img :src="recipe.image" :alt="recipe.title">
+    <img :src="recipe.picture" :alt="recipe.title">
     <div>
       <h3>{{ recipe.title }}</h3>
       <footer>
