@@ -48,9 +48,11 @@ export default {
 
   img {
     display: block;
-    height: 100%;
+    height: calc(6.25em - 2 * var(--spacing-01));
+    width: calc(6.25em - 2 * var(--spacing-01));
     margin-right: var(--spacing-03);
     border-radius: 3px;
+    background-color: var(--grey-10);
   }
 
   > div {
