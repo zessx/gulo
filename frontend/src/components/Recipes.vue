@@ -1,8 +1,28 @@
 <template>
   <div class="container">
-    <h1>{{ $t('navbar.recipes') }}</h1>
+    <HeaderApp />
 
-    <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
+    <div class="search">
+      <BaseButton :label="$t('recipes.new')" icon="add-recipe" size="large" class="button-new centered" />
+      <BaseButton icon="search" type="white" size="large" class="button-search" />
+    </div>
+
+    <div class="filter-meal">
+      <ul>
+        <li v-for="dish in dishes" :key="dish.name">
+          <input type="radio" :id="dish.name" :value="dish.name" v-model="selectedDish" @change="refresh">
+          <label :for="dish.name">
+            <BaseIcon :name="dish.icon" />
+            <p>{{ $tc('recipes.' + dish.name, 2) }}</p>
+          </label>
+        </li>
+      </ul>
+    </div>
+
+    <div class="results">
+      <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
+      <BaseMessage :message="$t('recipes.no_results')" class="centered" v-if="recipes.length == 0" />
+    </div>
 
     <Navbar page="recipes" />
   </div>
@@ -13,78 +33,128 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Recipes',
-  // data: function () {
-  //   return {
-  //     recipes: [
-  //       {
-  //         id: 1,
-  //         title: 'Porc tonkatsu',
-  //         image: 'https://www.placecage.com/200/200',
-  //         duration: 15,
-  //         portions: 2
-  //       },
-  //       {
-  //         id: 2,
-  //         title: 'Bouillon de volaille',
-  //         image: 'https://www.placecage.com/201/201',
-  //         duration: 90,
-  //         portions: null
-  //       },
-  //       {
-  //         id: 3,
-  //         title: 'Ramen de poulet au petits oignons marinés',
-  //         image: 'https://www.placecage.com/202/202',
-  //         duration: 60,
-  //         portions: 4
-  //       },
-  //       {
-  //         id: 4,
-  //         title: 'Crêpes',
-  //         image: 'https://www.placecage.com/203/203',
-  //         duration: null,
-  //         portions: 12
-  //       },
-  //       {
-  //         id: 5,
-  //         title: 'Pancakes',
-  //         image: 'https://www.placecage.com/204/204',
-  //         duration: 15,
-  //         portions: 2
-  //       },
-  //       {
-  //         id: 6,
-  //         title: 'Tartiflette',
-  //         image: 'https://www.placecage.com/205/205',
-  //         duration: 75,
-  //         portions: 4
-  //       },
-  //       {
-  //         id: 7,
-  //         title: 'Wraps',
-  //         image: 'https://www.placecage.com/206/206',
-  //         duration: 65,
-  //         portions: 4
-  //       }
-  //     ]
-  //   }
-  // },
+  data: function () {
+    return {
+      selectedDish: 'main_course',
+      dishes: [
+        {
+          name: 'starter',
+          icon: 'starter'
+        },
+        {
+          name: 'main_course',
+          icon: 'main-course'
+        },
+        {
+          name: 'dessert',
+          icon: 'dessert'
+        }
+      ]
+    }
+  },
   computed: mapState({
     recipes: state => state.recipes.all
   }),
-  methods: mapActions('recipes', [
-    'getRecipesList'
-  ]),
+  methods: {
+    refresh: function (event) {
+      this.$store.dispatch('recipes/getRecipesList', this.selectedDish)
+    },
+    ...mapActions('recipes', [
+      'getRecipesList'
+    ])
+  },
   created () {
-    this.$store.dispatch('recipes/getRecipesList')
+    this.selectedDish = this.$store.state.recipes.search.dish
+    this.$store.dispatch('recipes/getRecipesList', this.selectedDish)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  text-align: center;
+.search {
+  display: flex;
+  margin: 0 var(--spacing-05);
+  padding-bottom: var(--spacing-04);
+  border-bottom: 1px solid var(--background-40);
+
+  .button-new {
+    flex-grow: 1;
+
+    i { // TODO: ignored
+      height: 2rem;
+      width: 2rem;
+      transform: translateY(-0.2rem);
+    }
+  }
+
+  .button-search {
+    margin-left: var(--spacing-02);
+
+    i.icon { // TODO: ignored
+      color: var(--background-70);
+    }
+  }
 }
-.recipe {
-  margin-bottom: 0.5em;
+
+.filter-meal {
+  margin: 0 var(--spacing-05);
+  padding: var(--spacing-04) 0;
+  border-bottom: 1px solid var(--background-40);
+
+  ul {
+    display: flex;
+  }
+
+  li {
+    flex-basis: calc(100% / 3);
+  }
+
+  input[type="radio"] {
+    display: none;
+
+    &:checked + label {
+      color: var(--primary-60);
+      background-color: var(--primary-40);
+
+      i {
+        color: var(--primary-50);
+      }
+    }
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: var(--grey-70);
+    height: 4.5rem;
+
+    i {
+      color: var(--background-50);
+      height: 1.5em;
+      width: 1.5em;
+    }
+
+    p {
+      margin: 0;
+      margin-top: var(--spacing-01);
+      font-size: 0.875em;
+      font-weight: bold;
+    }
+
+    + li {
+      margin-left: var(--spacing-02);
+    }
+  }
+}
+
+.results {
+  padding: var(--spacing-04) var(--spacing-02);
+
+  .recipe {
+    margin-bottom: 0.5em;
+  }
 }
 </style>

@@ -74,6 +74,7 @@ body {
   color: var(--grey-70);
   background: var(--grey-10);
   padding-bottom: calc(4rem + var(--spacing-02));
+  margin: 0;
 }
 
 a {

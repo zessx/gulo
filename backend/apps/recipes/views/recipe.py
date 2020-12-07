@@ -40,4 +40,9 @@ class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         except KeyError:
             pass
 
+        try:
+            recipes = recipes.filter(dish=request.data['dish'])
+        except KeyError:
+            pass
+
         return Response(status=status.HTTP_200_OK, data=RecipeSerializer(recipes.distinct(), many=True).data)

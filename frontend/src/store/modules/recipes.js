@@ -2,7 +2,12 @@ import axios from 'axios'
 
 const state = () => ({
   all: [],
-  recipe: null
+  recipe: null,
+  search: {
+    dish: 'main_course',
+    text: null,
+    tags: []
+  }
 })
 
 const getters = {}
@@ -13,12 +18,24 @@ const mutations = {
   },
   setRecipe (state, recipe) {
     state.recipe = recipe
+  },
+  setSearch (state, dish, text, tags) {
+    state.search = {
+      dish,
+      text,
+      tags
+    }
   }
 }
 
 const actions = {
-  getRecipesList (context) {
-    return axios.get('/api/recipes')
+  getRecipesList (context, dish = 'main_course', text = null, tags = []) {
+    context.commit('setSearch', dish, text, tags)
+    let payload = { dish, tags }
+    if (text) {
+      payload.text = text
+    }
+    return axios.post('/api/recipes/search', payload)
       .then(response => { context.commit('setRecipes', response.data) })
       .catch(e => { console.log(e) })
   },
@@ -26,42 +43,7 @@ const actions = {
     return axios.get('/api/recipes/' + recipeId)
       .then(response => { context.commit('setRecipe', response.data) })
       .catch(e => { console.log(e) })
-  },
-  // createRecipe (context, payload) {
-  //   var avatar = payload.avatar
-  //   delete payload.avatar
-
-  //   return axios.post('/api/recipes/', payload)
-  //     .then(response => {
-  //       // Image upload
-  //       if (typeof avatar === 'object') {
-  //         let data = new FormData()
-  //         data.append('avatar', avatar)
-  //         return axios.patch('/api/recipes/' + response.data.id, data)
-  //       }
-  //     })
-  //     .catch(e => { console.log(e) })
-  // },
-  // editRecipe (context, payload) {
-  //   var avatar = payload.avatar
-  //   delete payload.avatar
-
-  //   return axios.patch('/api/recipes/' + payload.id, payload)
-  //     .then(response => {
-  //       // Image upload
-  //       if (typeof avatar === 'object') {
-  //         let data = new FormData()
-  //         data.append('avatar', avatar)
-  //         return axios.patch('/api/recipes/' + payload.id, data)
-  //       }
-  //     })
-  //     .catch(e => { console.log(e) })
-  // },
-  // deleteRecipe (context, recipeId) {
-  //   return axios.delete('/api/recipes/' + recipeId)
-  //     .then(response => {})
-  //     .catch(e => { console.log(e) })
-  // },
+  }
 }
 
 export default {

@@ -44,6 +44,7 @@ export default {
 
   i {
     height: 1.25em;
+    flex-shrink: 0;
 
     + p {
       margin-left: var(--spacing-03);
@@ -52,7 +53,13 @@ export default {
 
   p {
     margin: 0;
+    word-break: break-word;
+    white-space: break-spaces;
     transform: translateY(0.07em);
+  }
+
+  &.centered {
+    justify-content: center;
   }
 
   &.error {

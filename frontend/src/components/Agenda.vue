@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h1>{{ $t('navbar.agenda') }}</h1>
-
+    <HeaderApp />
+    <BaseMessage :message="$t('general.under_construction')" type="warning" class="centered" />
     <Navbar page="agenda" />
   </div>
 </template>

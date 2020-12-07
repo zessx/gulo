@@ -34,7 +34,7 @@ export default {
         {
           url: 'shopping',
           icon: 'list'
-        },
+        }
       ],
       currentLocation: window.location.pathname
     }
