@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <main class="container">
     <h1>Styleguide</h1>
 
     <BaseMessage message="Information message" />
@@ -39,7 +39,7 @@
     <br>
 
     <Navbar />
-  </div>
+  </main>
 </template>
 
 <script>

@@ -16,8 +16,14 @@ const mutations = {
   setRecipes (state, recipes) {
     state.all = recipes
   },
+  clearRecipes (state) {
+    state.all = []
+  },
   setRecipe (state, recipe) {
     state.recipe = recipe
+  },
+  clearRecipe (state) {
+    state.recipe = null
   },
   setSearch (state, dish, text, tags) {
     state.search = {
@@ -39,8 +45,8 @@ const actions = {
       .then(response => { context.commit('setRecipes', response.data) })
       .catch(e => { console.log(e) })
   },
-  getRecipe (context, recipeId) {
-    return axios.get('/api/recipes/' + recipeId)
+  getRecipe (context, id) {
+    return axios.get('/api/recipes/' + id)
       .then(response => { context.commit('setRecipe', response.data) })
       .catch(e => { console.log(e) })
   }

@@ -33,5 +33,9 @@ i.icon {
     color: inherit;
     fill: currentColor;
   }
+
+  &.reversed {
+    transform: scaleX(-1);
+  }
 }
 </style>

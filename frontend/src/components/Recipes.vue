@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <main class="container">
     <HeaderApp />
 
     <div class="search">
@@ -9,11 +9,11 @@
 
     <div class="filter-meal">
       <ul>
-        <li v-for="dish in dishes" :key="dish.name">
-          <input type="radio" :id="dish.name" :value="dish.name" v-model="selectedDish" @change="refresh">
-          <label :for="dish.name">
-            <BaseIcon :name="dish.icon" />
-            <p>{{ $tc('recipes.' + dish.name, 2) }}</p>
+        <li v-for="dish in dishes" :key="dish">
+          <input type="radio" :id="dish" :value="dish" v-model="selectedDish" @change="refresh">
+          <label :for="dish">
+            <BaseIcon :name="formatDishIcon(dish)" />
+            <p>{{ $tc('recipes.' + dish, 2) }}</p>
           </label>
         </li>
       </ul>
@@ -25,11 +25,12 @@
     </div>
 
     <Navbar page="recipes" />
-  </div>
+  </main>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import formatDishIcon from '@/utils/formatDishIcon'
 
 export default {
   name: 'Recipes',
@@ -37,18 +38,9 @@ export default {
     return {
       selectedDish: 'main_course',
       dishes: [
-        {
-          name: 'starter',
-          icon: 'starter'
-        },
-        {
-          name: 'main_course',
-          icon: 'main-course'
-        },
-        {
-          name: 'dessert',
-          icon: 'dessert'
-        }
+        'starter',
+        'main_course',
+        'dessert'
       ]
     }
   },
@@ -59,12 +51,16 @@ export default {
     refresh: function (event) {
       this.$store.dispatch('recipes/getRecipesList', this.selectedDish)
     },
+    formatDishIcon: function (dish) {
+      return formatDishIcon({ dish })
+    },
     ...mapActions('recipes', [
       'getRecipesList'
     ])
   },
   created () {
     this.selectedDish = this.$store.state.recipes.search.dish
+    this.$store.commit('recipes/clearRecipe')
     this.$store.dispatch('recipes/getRecipesList', this.selectedDish)
   }
 }

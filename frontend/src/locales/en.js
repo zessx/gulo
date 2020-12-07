@@ -9,9 +9,23 @@ export const messages = {
   },
   recipes: {
     new: 'New recipe',
+    edit: 'Edit',
+    making: 'Making',
     starter: 'Starter | Starters',
     main_course: 'Main course | Main courses',
     dessert: 'Dessert | Desserts',
     no_results: 'Oow… No results for you search!'
+  },
+  ingredients: {
+    units: {
+      cl: 'cl | cl',
+      l: 'l | l',
+      g: 'g | g',
+      kg: 'kg | kg',
+      tsp: 'tsp | tsp',
+      tbs: 'Tbs. | Tbs.',
+      pinch: 'pinch | pinches',
+      cup: 'cup | cups'
+    }
   }
 }

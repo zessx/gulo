@@ -7,10 +7,10 @@ export default ({ duration }) => {
   const minutes = duration - 60 * hours
 
   if (hours && minutes) {
-    return { hours, minutes, formatted: `${hours}h${String(minutes).padStart(2, '0')}` }
+    return `${hours}h${String(minutes).padStart(2, '0')}`
   }
   if (hours) {
-    return { hours, minutes, formatted: `${hours}h` }
+    return `${hours}h`
   }
-  return { hours, minutes, formatted: `${minutes} min` }
+  return `${minutes} min`
 }

@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <main class="container">
     <HeaderApp />
     <BaseMessage :message="$t('general.under_construction')" type="warning" class="centered" />
     <Navbar page="agenda" />
-  </div>
+  </main>
 </template>
 
 <script>

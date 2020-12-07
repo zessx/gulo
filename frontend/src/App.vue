@@ -71,6 +71,7 @@ export default {
 
 body {
   font-family: 'Arimo', sans-serif;
+  letter-spacing: 0.2px;
   color: var(--grey-70);
   background: var(--grey-10);
   padding-bottom: calc(4rem + var(--spacing-02));

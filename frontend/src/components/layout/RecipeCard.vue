@@ -1,5 +1,5 @@
 <template>
-  <article class="recipe">
+  <router-link tag="article" :to="'/recipes/' + recipe.pk" class="recipe">
     <img :src="recipe.picture" :alt="recipe.title">
     <div>
       <h3>{{ recipe.title }}</h3>
@@ -15,7 +15,7 @@
         <BaseButton size="small" icon="add" />
       </footer>
     </div>
-  </article>
+  </router-link>
 </template>
 
 <script>
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     formatDuration: function (duration) {
-      return formatDuration({ duration }).formatted
+      return formatDuration({ duration })
     }
   }
 }
@@ -50,6 +50,8 @@ export default {
     display: block;
     height: calc(6.25em - 2 * var(--spacing-01));
     width: calc(6.25em - 2 * var(--spacing-01));
+    object-fit: cover;
+    object-position: center center;
     margin-right: var(--spacing-03);
     border-radius: 3px;
     background-color: var(--grey-10);
