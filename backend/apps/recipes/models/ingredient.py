@@ -10,18 +10,20 @@ class Ingredient(models.Model):
     UNIT_L     = 'l'
     UNIT_G     = 'g'
     UNIT_KG    = 'kg'
-    UNIT_TS    = 'ts'
-    UNIT_TBSP  = 'tbsp'
+    UNIT_TSP   = 'tsp'
+    UNIT_TBS   = 'tbs'
     UNIT_PINCH = 'pinch'
+    UNIT_CUP   = 'cup'
 
     UNITS = {
         UNIT_CL:    _('cl'),
         UNIT_L:     _('l'),
         UNIT_G:     _('g'),
         UNIT_KG:    _('kg'),
-        UNIT_TS:    _('tsp.'),
-        UNIT_TBSP:  _('tbsp.'),
+        UNIT_TSP:   _('tsp'),
+        UNIT_TBS:   _('Tbs.'),
         UNIT_PINCH: _('pinch'),
+        UNIT_CUP:   _('cup'),
     }
 
     recipe = models.ForeignKey(
@@ -45,9 +47,10 @@ class Ingredient(models.Model):
             (UNIT_L, _('l')),
             (UNIT_G, _('g')),
             (UNIT_KG, _('kg')),
-            (UNIT_TS, _('tsp.')),
-            (UNIT_TBSP, _('tbsp.')),
+            (UNIT_TSP, _('tsp')),
+            (UNIT_TBS, _('Tbs.')),
             (UNIT_PINCH, _('pinch')),
+            (UNIT_CUP, _('cup')),
         ],
         max_length=50,
         default='',
@@ -65,6 +68,8 @@ class Ingredient(models.Model):
             output += str(self.quantity)
             if self.unit == self.UNIT_PINCH:
                 output += ngettext('pinch', 'pinches', self.quantity) + ' '
+            if self.unit == self.UNIT_CUP:
+                output += ngettext('cup', 'cups', self.quantity) + ' '
             elif self.unit:
                 output += self.UNITS[self.unit] + ' '
         output += self.name

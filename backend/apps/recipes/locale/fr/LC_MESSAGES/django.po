@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 17:59+0000\n"
+"POT-Creation-Date: 2020-12-07 23:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,129 +15,138 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: apps.py:6 models.py:68
+#: apps.py:6 models/recipe.py:55
 msgid "recipes"
 msgstr "recettes"
 
-#: models.py:7 models.py:133
-msgid "name"
-msgstr "nom"
-
-#: models.py:13
-msgid "tag"
-msgstr "mot-clé"
-
-#: models.py:14
-msgid "tags"
-msgstr "mots-clés"
-
-#: models.py:26 models.py:43
-msgid "Starter"
-msgstr "Entrée"
-
-#: models.py:27 models.py:44
-msgid "Main course"
-msgstr "Plat"
-
-#: models.py:28 models.py:45
-msgid "Dessert"
-msgstr "Dessert"
-
-#: models.py:32
-msgid "title"
-msgstr "titre"
-
-#: models.py:36
-msgid "picture"
-msgstr "image"
-
-#: models.py:41
-msgid "dish"
-msgstr "repas"
-
-#: models.py:51
-msgid "duration"
-msgstr "durée"
-
-#: models.py:57
-msgid "portions"
-msgstr "portions"
-
-#: models.py:67
-msgid "recipe"
-msgstr "recette"
-
-#: models.py:79
-msgid "Step must be an instance of Step."
-msgstr "Step doit être une instance de Step"
-
-#: models.py:81
-msgid "Order is out of range."
-msgstr "Order est hors bornes."
-
-#: models.py:118 models.py:144
+#: models/ingredient.py:19 models/ingredient.py:46
 msgid "cl"
 msgstr "cl"
 
-#: models.py:119 models.py:145
+#: models/ingredient.py:20 models/ingredient.py:47
 msgid "l"
 msgstr "l"
 
-#: models.py:120 models.py:146
+#: models/ingredient.py:21 models/ingredient.py:48
 msgid "g"
 msgstr "g"
 
-#: models.py:121 models.py:147
+#: models/ingredient.py:22 models/ingredient.py:49
 msgid "kg"
 msgstr "kg"
 
-#: models.py:122 models.py:148
-msgid "tsp."
+#: models/ingredient.py:23 models/ingredient.py:50
+#, fuzzy
+#| msgid "tsp."
+msgid "tsp"
 msgstr "cc"
 
-#: models.py:123 models.py:149
-msgid "tbsp."
+#: models/ingredient.py:24 models/ingredient.py:51
+msgid "Tbs."
 msgstr "cs"
 
-#: models.py:124 models.py:150 models.py:167 serializers.py:14
+#: models/ingredient.py:25 models/ingredient.py:52 models/ingredient.py:70
+#: serializers/ingredient.py:12
 msgid "pinch"
 msgid_plural "pinches"
 msgstr[0] "pincée"
 msgstr[1] "pincées"
 
-#: models.py:137
+#: models/ingredient.py:26 models/ingredient.py:53 models/ingredient.py:72
+msgid "cup"
+msgid_plural "cups"
+msgstr[0] "tasse"
+msgstr[1] "tasses"
+
+#: models/ingredient.py:35 models/tag.py:7
+msgid "name"
+msgstr "nom"
+
+#: models/ingredient.py:39
 msgid "quantity"
 msgstr "quantité"
 
-#: models.py:142
+#: models/ingredient.py:44
 msgid "unit"
 msgstr "unité"
 
-#: models.py:159
+#: models/ingredient.py:62
 msgid "ingredient"
 msgstr "ingrédient"
 
-#: models.py:160
+#: models/ingredient.py:63
 msgid "ingredients"
 msgstr "ingrédients"
 
-#: models.py:181
+#: models/recipe.py:13 models/recipe.py:30
+msgid "Starter"
+msgstr "Entrée"
+
+#: models/recipe.py:14 models/recipe.py:31
+msgid "Main course"
+msgstr "Plat"
+
+#: models/recipe.py:15 models/recipe.py:32
+msgid "Dessert"
+msgstr "Dessert"
+
+#: models/recipe.py:19
+msgid "title"
+msgstr "titre"
+
+#: models/recipe.py:23
+msgid "picture"
+msgstr "image"
+
+#: models/recipe.py:28
+msgid "dish"
+msgstr "repas"
+
+#: models/recipe.py:38
+msgid "duration"
+msgstr "durée"
+
+#: models/recipe.py:44
+msgid "portions"
+msgstr "portions"
+
+#: models/recipe.py:54
+msgid "recipe"
+msgstr "recette"
+
+#: models/recipe.py:66
+msgid "Step must be an instance of Step."
+msgstr "Step doit être une instance de Step"
+
+#: models/recipe.py:68
+msgid "Order is out of range."
+msgstr "Order est hors bornes."
+
+#: models/step.py:14
 msgid "order"
 msgstr "ordre"
 
-#: models.py:184
+#: models/step.py:17
 msgid "text"
 msgstr "texte"
 
-#: models.py:188
+#: models/step.py:21
 msgid "step"
 msgstr "étape"
 
-#: models.py:189
+#: models/step.py:22
 msgid "steps"
 msgstr "étapes"
 
-#: models.py:192
+#: models/step.py:25
 #, python-format
 msgid "Step %(order)d"
 msgstr "Étape %(order)d"
+
+#: models/tag.py:13
+msgid "tag"
+msgstr "mot-clé"
+
+#: models/tag.py:14
+msgid "tags"
+msgstr "mots-clés"
