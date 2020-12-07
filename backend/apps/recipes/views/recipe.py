@@ -26,8 +26,6 @@ class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         """
         Search recipes.
         """
-        args = {}
-
         recipes = Recipe.objects.all()
         try:
             recipes = recipes.filter(title__icontains=request.data['text']) | \
@@ -37,7 +35,8 @@ class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             pass
 
         try:
-            recipes = recipes.filter(tags__name=request.data['tag'])
+            for tag in request.data['tags']:
+                recipes = recipes.filter(tags__name=tag)
         except KeyError:
             pass
 
