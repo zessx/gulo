@@ -33,7 +33,7 @@ class StepViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         try:
             recipe.move_step(step, request.data['order'])
-        except IndexError as err:
+        except KeyError as err:
             pass
 
         return Response(status=status.HTTP_201_CREATED, data=StepSerializer(step).data)
