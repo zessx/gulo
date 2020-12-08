@@ -1,6 +1,6 @@
 <template>
   <div class="message" :class="type">
-    <BaseIcon v-if="icon" :name="icon" />
+    <Icon v-if="icon" :name="icon" />
     <p>{{ message }}</p>
   </div>
 </template>

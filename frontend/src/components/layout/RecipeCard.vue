@@ -5,14 +5,14 @@
       <h3>{{ recipe.title }}</h3>
       <footer>
         <div class="duration" v-if="recipe.duration">
-          <BaseIcon name="timing" />
+          <Icon name="timing" />
           <span>{{ formatDuration(recipe.duration) }}</span>
         </div>
         <div class="portions" v-if="recipe.portions">
-          <BaseIcon name="portion" />
+          <Icon name="portion" />
           <span>{{ recipe.portions }}</span>
         </div>
-        <BaseButton size="small" icon="add" />
+        <Button size="small" icon="add" />
       </footer>
     </div>
   </router-link>

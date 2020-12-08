@@ -3,8 +3,8 @@
     <HeaderApp />
 
     <div class="search">
-      <BaseButton :label="$t('recipes.new')" icon="add-recipe" size="large" class="button-new centered" />
-      <BaseButton icon="search" type="white" size="large" class="button-search" />
+      <Button :label="$t('recipes.new')" icon="add-recipe" size="large" class="button-new centered" />
+      <Button icon="search" type="white" size="large" class="button-search" />
     </div>
 
     <div class="filter-meal">
@@ -12,7 +12,7 @@
         <li v-for="dish in dishes" :key="dish">
           <input type="radio" :id="dish" :value="dish" v-model="selectedDish" @change="refresh">
           <label :for="dish">
-            <BaseIcon :name="formatDishIcon(dish)" />
+            <Icon :name="formatDishIcon(dish)" />
             <p>{{ $tc('recipes.' + dish, 2) }}</p>
           </label>
         </li>
@@ -21,7 +21,7 @@
 
     <div class="results">
       <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
-      <BaseMessage :message="$t('recipes.no_results')" class="centered" v-if="recipes.length == 0" />
+      <Message :message="$t('recipes.no_results')" class="centered" v-if="recipes.length == 0" />
     </div>
 
     <Navbar page="recipes" />

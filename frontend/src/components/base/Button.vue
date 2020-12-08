@@ -1,6 +1,6 @@
 <template>
   <button :data-size="size" :data-type="type">
-    <BaseIcon v-if="icon" :name="icon" />
+    <Icon v-if="icon" :name="icon" />
     <p v-if="label">{{ label }}</p>
   </button>
 </template>

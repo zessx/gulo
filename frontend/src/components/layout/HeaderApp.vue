@@ -2,7 +2,7 @@
   <header>
     <h1>Gulo</h1>
     <a href="#" class="settings">
-      <BaseIcon name="settings" />
+      <Icon name="settings" />
     </a>
   </header>
 </template>

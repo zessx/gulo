@@ -3,7 +3,7 @@
     <ul>
       <router-link tag="li" :to="'/' + page.url" v-for="page in pages" :key="page.url" :class="{ selected: currentLocation.indexOf(page.url) > -1 }">
         <a>
-          <BaseIcon :name="page.icon" />
+          <Icon :name="page.icon" />
           <p>{{ $t('navbar.' + page.url) }}</p>
         </a>
       </router-link>

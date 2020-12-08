@@ -1,7 +1,7 @@
 <template>
   <main class="container">
     <HeaderApp />
-    <BaseMessage :message="$t('general.under_construction')" type="warning" class="centered" />
+    <Message :message="$t('general.under_construction')" type="warning" class="centered" />
     <Navbar page="agenda" />
   </main>
 </template>

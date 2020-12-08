@@ -2,14 +2,14 @@
   <main class="container">
     <header>
       <router-link to="/recipes">
-        <BaseIcon name="arrow" class="back reversed" />
+        <Icon name="arrow" class="back reversed" />
       </router-link>
       <router-link to="/recipes">
-        <BaseButton icon="edit" type="secondary" class="edit" :label="$t('recipes.edit')" />
+        <Button icon="edit" type="secondary" class="edit" :label="$t('recipes.edit')" />
       </router-link>
     </header>
 
-    <BaseLoader v-if="recipe === null" />
+    <Loader v-if="recipe === null" />
 
     <article class="recipe" v-if="recipe">
       <img :src="recipe.picture" :alt="recipe.title">
@@ -17,15 +17,15 @@
 
       <div class="meta">
         <div class="dish">
-          <BaseIcon :name="formatDishIcon(recipe.dish)" />
+          <Icon :name="formatDishIcon(recipe.dish)" />
           <span>{{ $tc('recipes.' + recipe.dish, 1) }}</span>
         </div>
         <div class="duration" v-if="recipe.duration">
-          <BaseIcon name="timing" />
+          <Icon name="timing" />
           <span>{{ formatDuration(recipe.duration) }}</span>
         </div>
         <div class="portions" v-if="recipe.portions">
-          <BaseIcon name="portion" />
+          <Icon name="portion" />
           <span>{{ recipe.portions }}</span>
         </div>
       </div>
@@ -38,7 +38,7 @@
             <span>{{ ingredient.name }}</span>
           </li>
         </ul>
-        <BaseButton icon="list" type="secondary" size="large" />
+        <Button icon="list" type="secondary" size="large" />
       </div>
 
       <div class="steps" v-if="recipe.steps.length > 0">
