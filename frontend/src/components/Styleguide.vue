@@ -2,6 +2,8 @@
   <main class="container">
     <h1>Styleguide</h1>
 
+    <InputSearch name="search" :placeholder="$t('search.placeholder')" />
+
     <Message message="Information message" />
     <Message message="Information message" icon="check" type="success" />
     <Message message="Information message" type="warning" />
@@ -38,7 +40,7 @@
     <br>
     <br>
 
-    <Navbar />
+    <Navbar page="" />
   </main>
 </template>
 
@@ -50,7 +52,7 @@ export default {
 
 <style lang="scss" scoped>
 h1 {
-  text-align: center;
+  font-size: 2rem;
 }
 button {
   margin: 0.5em 0;

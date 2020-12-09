@@ -88,4 +88,9 @@ ul {
   margin: 0;
   list-style-type: none;
 }
+
+h1 {
+  text-align: center;
+  font-size: 1.5rem;
+}
 </style>

@@ -27,5 +27,16 @@ export const messages = {
       pinch: 'pinch | pinches',
       cup: 'cup | cups'
     }
+  },
+  search: {
+    new: 'New search',
+    cancel: 'Cancel',
+    validate: 'Validate',
+    placeholder: 'Ingredient, making…',
+    sort_by: 'Sort recipes by',
+    sort: {
+      timing: 'Duration',
+      popularity: 'Popularity'
+    }
   }
 }

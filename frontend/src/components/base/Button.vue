@@ -99,9 +99,10 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: auto;
 
     i + p {
-      margin-top: var(--spacing-02);
+      margin-top: var(--spacing-01);
       margin-left: 0;
     }
   }

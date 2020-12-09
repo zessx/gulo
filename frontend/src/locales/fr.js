@@ -27,5 +27,16 @@ export const messages = {
       pinch: 'pincée | pincées',
       cup: 'tasse | tasses'
     }
+  },
+  search: {
+    new: 'Nouvelle recherche',
+    cancel: 'Annuler',
+    validate: 'Valider',
+    placeholder: 'Ingrédient, préparation…',
+    sort_by: 'Trier les recettes par',
+    sort: {
+      timing: 'Durée',
+      popularity: 'Popularité'
+    }
   }
 }

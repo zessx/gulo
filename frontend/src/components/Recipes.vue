@@ -4,7 +4,9 @@
 
     <div class="search">
       <Button :label="$t('recipes.new')" icon="add-recipe" size="large" class="button-new centered" />
-      <Button icon="search" type="white" size="large" class="button-search" />
+      <router-link to="/recipes/search">
+        <Button icon="search" type="white" size="large" class="button-search" />
+      </router-link>
     </div>
 
     <div class="filter-meal">
@@ -49,7 +51,9 @@ export default {
   }),
   methods: {
     refresh: function (event) {
-      this.$store.dispatch('recipes/getRecipesList', this.selectedDish)
+      let search = this.$store.state.recipes.search
+      search.dish = this.selectedDish
+      this.$store.dispatch('recipes/getRecipesList', search)
     },
     formatDishIcon: function (dish) {
       return formatDishIcon({ dish })
@@ -61,7 +65,7 @@ export default {
   created () {
     this.selectedDish = this.$store.state.recipes.search.dish
     this.$store.commit('recipes/clearRecipe')
-    this.$store.dispatch('recipes/getRecipesList', this.selectedDish)
+    this.refresh()
   }
 }
 </script>
