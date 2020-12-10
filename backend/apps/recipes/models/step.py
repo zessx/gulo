@@ -17,6 +17,9 @@ class Step(models.Model):
         verbose_name=_('text')
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = _('step')
         verbose_name_plural = _('steps')

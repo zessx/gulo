@@ -27,22 +27,25 @@ class RecipeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         Search recipes.
         """
         recipes = Recipe.objects.all()
-        try:
+
+        if 'text' in request.data:
             recipes = recipes.filter(title__icontains=request.data['text']) | \
                 recipes.filter(steps__text__icontains=request.data['text']) | \
                 recipes.filter(ingredients__name__icontains=request.data['text'])
-        except KeyError:
-            pass
 
-        try:
+        if 'tags' in request.data:
             for tag in request.data['tags']:
                 recipes = recipes.filter(tags__name=tag)
-        except KeyError:
-            pass
 
-        try:
+        if 'dish' in request.data:
             recipes = recipes.filter(dish=request.data['dish'])
-        except KeyError:
-            pass
+
+        orderbyList = ['-updated_at']
+        if 'sort' in request.data:
+            if request.data['sort'] in ['popular', 'popularity']:
+                orderbyList = ['-popularity'] + orderbyList
+            if request.data['sort'] in ['duration', 'timing']:
+                orderbyList = ['duration'] + orderbyList
+        recipes = recipes.order_by(*orderbyList)
 
         return Response(status=status.HTTP_200_OK, data=RecipeSerializer(recipes.distinct(), many=True).data)

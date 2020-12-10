@@ -39,7 +39,7 @@ const mutations = {
 const actions = {
   getRecipesList ({ commit }, { dish, text, tags, sort }) {
     commit('setSearch', { dish, text, tags, sort })
-    let payload = { dish, tags }
+    let payload = { dish, tags, sort }
     if (text) {
       payload.text = text
     }

@@ -46,9 +46,16 @@ class Recipe(models.Model):
         blank=True,
         null=True
     )
+    popularity = models.PositiveIntegerField(
+        verbose_name=_('popularity'),
+        default=0
+    )
     tags = models.ManyToManyField(
         Tag
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = _('recipe')

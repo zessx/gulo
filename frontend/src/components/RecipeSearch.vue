@@ -17,9 +17,11 @@
         <div class="sorting-buttons">
           <Button icon="timing" type="white" size="large" class="vertical" data-sort="timing"
             :label="$t('search.sort.timing')"
+            :class="{ selected: search.sort === 'timing' }"
             v-on:click.native="selectSorting" />
           <Button icon="popular" type="white" size="large" class="vertical" data-sort="popular"
             :label="$t('search.sort.popularity')"
+            :class="{ selected: search.sort === 'popular' }"
             v-on:click.native="selectSorting" />
         </div>
       </div>
@@ -47,8 +49,8 @@ export default {
       let target = event.target.tagName === 'BUTTON' ? event.target : event.target.closest('button')
       const value = target.getAttribute('data-sort')
       this.search.sort = this.search.sort !== value ? value : 'date'
-      document.querySelector('[data-sort="timing"]').classList.toggle('selected', this.search.sort === 'timing')
-      document.querySelector('[data-sort="popular"]').classList.toggle('selected', this.search.sort === 'popular')
+      // document.querySelector('[data-sort="timing"]').classList.toggle('selected', this.search.sort === 'timing')
+      // document.querySelector('[data-sort="popular"]').classList.toggle('selected', this.search.sort === 'popular')
     },
     canValidate: function () {
       return (this.search.text && this.search.text.trim() !== '') ||
