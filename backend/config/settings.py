@@ -13,7 +13,10 @@ from datetime import timedelta
 ROOT_DIR = environ.Path(__file__) - 2
 
 # Load operating system environment variables and then prepare to use them
-env = environ.Env()
+env_file = '.env'
+if not env.str('ENV_PATH', '.env') == '.env':
+    env_file = env.str('ENV_PATH', '.env') + env_file
+env = environ.Env.read_env(env_file=ROOT_DIR(env_file))
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -27,9 +30,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-
     'rest_framework',
-
     'django_extensions',
 ]
 
@@ -88,7 +89,7 @@ DATABASES = {
         'NAME': env.str('POSTGRES_DB'),
         'USER': env.str('POSTGRES_USER'),
         'PASSWORD': env.str('POSTGRES_PASSWORD'),
-        'HOST': 'postgres',
+        'HOST': env.str('POSTGRES_HOST'),
         'PORT': 5432,
     },
 }

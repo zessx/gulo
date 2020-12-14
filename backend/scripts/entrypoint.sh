@@ -11,11 +11,16 @@ import psycopg2
 import environ
 
 try:
-    env = environ.Env()
+    base = environ.Path(__file__) - 2
+    env_file = '.env'
+    if not env.str('ENV_PATH', '.env') == '.env':
+        env_file = env.str('ENV_PATH', '.env') + env_file
+    env = environ.Env.read_env(env_file=base(env_file))
     dbname = env.str('POSTGRES_DB')
     user = env.str('POSTGRES_USER')
     password = env.str('POSTGRES_PASSWORD')
-    conn = psycopg2.connect(dbname=dbname, user=user, password=password, host='postgres', port=5432)
+    host = env.str('POSTGRES_HOST')
+    conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=5432)
 except psycopg2.OperationalError:
     sys.exit(-1)
 sys.exit(0)
