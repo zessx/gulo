@@ -12,10 +12,11 @@ import environ
 
 try:
     base = environ.Path(__file__) - 2
+    env = environ.Env()
     env_file = '.env'
     if not env.str('ENV_PATH', '.env') == '.env':
         env_file = env.str('ENV_PATH', '.env') + env_file
-    env = environ.Env.read_env(env_file=base(env_file))
+    env.read_env(env_file=base(env_file))
     dbname = env.str('POSTGRES_DB')
     user = env.str('POSTGRES_USER')
     password = env.str('POSTGRES_PASSWORD')
