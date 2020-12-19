@@ -1,15 +1,18 @@
 <template>
   <main class="container">
     <header>
-      <router-link to="/recipes">
-        <Button type="secondary" class="cancel" :label="$t('search.cancel')" />
-      </router-link>
+      <Button type="secondary" class="cancel" :label="$t('search.cancel')"
+        v-on:click.native="cancel" />
     </header>
 
     <div class="search">
       <h1>{{ $t('search.new') }}</h1>
 
-      <InputSearch name="search" v-bind:value="search.text" :placeholder="$t('search.placeholder')" v-on:keyup.native="typeText" v-on:click.native="typeText" />
+      <InputSearch name="search"
+        :placeholder="$t('search.placeholder')"
+        v-bind:value="search.text"
+        v-on:keyup.native="typeText"
+        v-on:click.native="typeText" />
 
       <div class="sorting">
         <h2>{{ $t('search.sort_by') }}</h2>
@@ -28,7 +31,9 @@
     </div>
 
     <footer>
-      <Button type="success" icon="check" size="large" class="full centered validate" :label="$t('search.validate')" :disabled="! canValidate()" v-on:click.native="validate" />
+      <Button type="success" icon="check" size="large" class="full centered validate"
+        :label="$t('search.validate')"
+        v-on:click.native="validate" />
     </footer>
   </main>
 </template>
@@ -49,13 +54,6 @@ export default {
       let target = event.target.tagName === 'BUTTON' ? event.target : event.target.closest('button')
       const value = target.getAttribute('data-sort')
       this.search.sort = this.search.sort !== value ? value : 'date'
-      // document.querySelector('[data-sort="timing"]').classList.toggle('selected', this.search.sort === 'timing')
-      // document.querySelector('[data-sort="popular"]').classList.toggle('selected', this.search.sort === 'popular')
-    },
-    canValidate: function () {
-      return (this.search.text && this.search.text.trim() !== '') ||
-        (this.search.tags && this.search.tags.length > 0) ||
-        (this.search.sort && this.search.sort !== 'date')
     },
     validate: function (event) {
       let target = event.target.tagName === 'BUTTON' ? event.target : event.target.closest('button')
@@ -63,10 +61,14 @@ export default {
         this.$store.dispatch('recipes/getRecipesList', this.search)
         this.$router.push('/recipes')
       }
+    },
+    cancel: function () {
+      this.search = { ...this.$store.state.recipes.search }
+      this.$router.push('/recipes')
     }
   },
   created () {
-    this.search = this.$store.state.recipes.search
+    this.search = { ...this.$store.state.recipes.search }
   }
 }
 </script>
@@ -88,10 +90,6 @@ header {
     &:focus {
       color: var(--background-60);
     }
-  }
-
-  .edit {
-    box-shadow: none;
   }
 }
 

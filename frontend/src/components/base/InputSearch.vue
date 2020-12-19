@@ -1,7 +1,7 @@
 <template>
   <label class="input-search">
     <Icon name="search" />
-    <input type="search" :name="name" v-model="dvalue" :placeholder="placeholder" />
+    <input type="text" :name="name" v-model="dvalue" :placeholder="placeholder" />
     <Icon name="cross" class="clear-search" v-on:click.native="dvalue = null" />
   </label>
 </template>
@@ -63,6 +63,7 @@ export default {
 
   input {
     flex-grow: 1;
+    font-size: 1rem;
     line-height: 1.5rem;
     border: none;
     outline: none;
@@ -70,13 +71,13 @@ export default {
     letter-spacing: 0.2px;
     font-weight: bold;
 
-    &:not(:placeholder-shown) + i.clear-search {
-      display: block;
-    }
-
     &::placeholder {
       color: var(--background-40);
     }
+  }
+
+  &:not(.hide-clear-search) input:not(:placeholder-shown) + i.clear-search {
+    display: block;
   }
 }
 </style>

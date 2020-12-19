@@ -3,9 +3,13 @@
     <HeaderApp />
 
     <div class="search">
-      <Button :label="$t('recipes.new')" icon="add-recipe" size="large" class="button-new centered" />
+      <Button icon="add-recipe" size="large" class="button-new centered"
+        :label="searchText ? undefined : $t('recipes.new')"
+        :class="searchText ? undefined : 'grow'" />
       <router-link to="/recipes/search">
-        <Button icon="search" type="white" size="large" class="button-search" />
+        <Button v-if="!searchText" icon="search" type="white" size="large" class="button-search" />
+        <InputSearch v-if="searchText" name="search" v-bind:value="searchText" class="hide-clear-search"
+          :placeholder="$t('search.placeholder')" />
       </router-link>
     </div>
 
@@ -47,7 +51,8 @@ export default {
     }
   },
   computed: mapState({
-    recipes: state => state.recipes.all
+    recipes: state => state.recipes.all,
+    searchText: state => state.recipes.search.text
   }),
   methods: {
     refresh: function (event) {
@@ -78,18 +83,24 @@ export default {
   border-bottom: 1px solid var(--background-40);
 
   .button-new {
-    flex-grow: 1;
+    margin-right: var(--spacing-02);
 
     i { // TODO: ignored
       height: 2rem;
       width: 2rem;
       transform: translateY(-0.2rem);
     }
+
+    &.grow {
+      flex-grow: 1;
+    }
+
+    &:not(.grow) + a {
+      flex-grow: 1;
+    }
   }
 
   .button-search {
-    margin-left: var(--spacing-02);
-
     i.icon { // TODO: ignored
       color: var(--background-70);
     }
