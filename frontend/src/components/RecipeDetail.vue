@@ -95,10 +95,6 @@ header {
       color: var(--background-60);
     }
   }
-
-  .edit {
-    box-shadow: none;
-  }
 }
 
 .recipe {
@@ -173,7 +169,6 @@ header {
       position: absolute;
       right: var(--spacing-06);
       top: var(--spacing-06);
-      box-shadow: none;
     }
 
     ul {

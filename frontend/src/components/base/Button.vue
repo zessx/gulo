@@ -110,6 +110,7 @@ button {
   &[data-type="secondary"] {
     color: var(--background-70);
     background-color: var(--background-30);
+    box-shadow: none;
 
     i {
       color: var(--background-60);
