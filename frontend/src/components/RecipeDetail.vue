@@ -42,10 +42,24 @@
       </div>
 
       <div class="steps" v-if="recipe.steps.length > 0">
+        <Separator />
+
         <h2>{{ $t('recipes.making') }}</h2>
         <ol>
           <li v-for="step in recipe.steps" :key="step.id">{{ step.text }}</li>
         </ol>
+      </div>
+
+      <div class="tags" v-if="recipe.tags.length > 0">
+        <Separator />
+
+        <Tag v-for="tag in recipe.tags" :key="tag.pk" data-type="secondary" :label="tag.name"/>
+      </div>
+
+      <div class="actions">
+        <Separator v-if="recipe.steps.length == 0 && recipe.tags.length == 0" />
+
+        <Button icon="delete" type="error" class="full centered" :label="$t('recipes.delete')" />
       </div>
     </article>
 
@@ -101,6 +115,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: var(--spacing-09);
 
   img {
     display: block;
@@ -115,6 +130,10 @@ header {
   h1 {
     margin: var(--spacing-06) 0;
     text-align: center;
+  }
+
+  hr {
+    margin: var(--spacing-06) 0;
   }
 
   .meta {
@@ -174,8 +193,6 @@ header {
     ul {
       list-style: none;
       padding: 0;
-      padding-bottom: var(--spacing-06);
-      border-bottom: solid 1px var(--background-40);
     }
 
     li {
@@ -199,7 +216,7 @@ header {
   }
 
   .steps {
-    padding: var(--spacing-06);
+    padding: 0 var(--spacing-06);
     width: 100%;
 
     h2 {
@@ -213,6 +230,7 @@ header {
     ol {
       list-style: none;
       counter-reset: li;
+      margin-bottom: 0;
       padding: 0;
     }
 
@@ -222,6 +240,10 @@ header {
       margin: var(--spacing-05) 0;
       line-height: 1.33em;
       padding-left: var(--spacing-06);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
 
       &::before {
         content: counter(li);
@@ -235,6 +257,24 @@ header {
         margin-right: var(--spacing-05);
       }
     }
+  }
+
+  .tags {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0 var(--spacing-06) var(--spacing-03);
+
+    .tag {
+      margin-right: var(--spacing-03);
+      margin-bottom: var(--spacing-03);
+    }
+  }
+
+  .actions {
+    padding: 0 var(--spacing-06);
+    width: 100%;
   }
 }
 </style>

@@ -24,6 +24,8 @@
       </div>
 
       <div class="sorting">
+        <Separator />
+
         <h2>{{ $t('search.sort_by') }}</h2>
 
         <div class="sorting-buttons">
@@ -147,7 +149,6 @@ header {
   .sorting {
     width: 100%;
     margin-top: auto;
-    border-top: 1px solid var(--background-40);
     padding-bottom: var(--spacing-06);
 
     h2 {

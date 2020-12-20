@@ -14,6 +14,8 @@
     </div>
 
     <div class="filter-meal">
+      <Separator />
+
       <ul>
         <li v-for="dish in dishes" :key="dish">
           <input type="radio" :id="dish" :value="dish" v-model="selectedDish" @change="refresh">
@@ -23,9 +25,11 @@
           </label>
         </li>
       </ul>
+
+      <Separator />
     </div>
 
-    <div class="tags">
+    <div class="tags" v-if="this.$store.state.tags.selected.length > 0">
       <Tag v-for="tag in this.$store.state.tags.selected" :key="tag.pk"
         :data-tag="tag.pk" :label="tag.name" :active="true"
         v-on:click.native="unselectTag" />
@@ -92,8 +96,6 @@ export default {
 .search {
   display: flex;
   margin: 0 var(--spacing-05);
-  padding-bottom: var(--spacing-04);
-  border-bottom: 1px solid var(--background-40);
 
   .button-new {
     margin-right: var(--spacing-02);
@@ -122,8 +124,6 @@ export default {
 
 .filter-meal {
   margin: 0 var(--spacing-05);
-  padding: var(--spacing-04) 0;
-  border-bottom: 1px solid var(--background-40);
 
   ul {
     display: flex;
@@ -179,7 +179,7 @@ export default {
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  padding-top: var(--spacing-04);
+  padding-bottom: var(--spacing-04);
   margin: 0 var(--spacing-05) calc(-1 * var(--spacing-03));
 
   .tag {
@@ -189,7 +189,7 @@ export default {
 }
 
 .results {
-  padding: var(--spacing-04) var(--spacing-02);
+  padding: 0 var(--spacing-02) var(--spacing-09);
 
   .recipe {
     margin-bottom: 0.5em;

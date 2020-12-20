@@ -10,6 +10,7 @@ export const messages = {
   recipes: {
     new: 'New recipe',
     edit: 'Edit',
+    delete: 'Delete the recipe',
     making: 'Making',
     starter: 'Starter | Starters',
     main_course: 'Main course | Main courses',
