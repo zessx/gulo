@@ -25,6 +25,12 @@
       </ul>
     </div>
 
+    <div class="tags">
+      <Tag v-for="tag in this.$store.state.tags.selected" :key="tag.pk"
+        :data-tag="tag.pk" :label="tag.name" :active="true"
+        v-on:click.native="unselectTag" />
+    </div>
+
     <div class="results">
       <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
       <Message :message="$t('recipes.no_results')" class="centered" v-if="recipes.length == 0" />
@@ -58,7 +64,14 @@ export default {
     refresh: function (event) {
       let search = this.$store.state.recipes.search
       search.dish = this.selectedDish
+      search.tags = this.$store.state.tags.selected.map(e => e.name)
       this.$store.dispatch('recipes/getRecipesList', search)
+    },
+    unselectTag: function (event) {
+      let target = event.target.classList.contains('tag') ? event.target : event.target.closest('.tag')
+      this.$store.dispatch('tags/unselectTag', target.getAttribute('data-tag')).then(() => {
+        this.refresh()
+      })
     },
     formatDishIcon: function (dish) {
       return formatDishIcon({ dish })
@@ -158,6 +171,20 @@ export default {
     + li {
       margin-left: var(--spacing-02);
     }
+  }
+}
+
+.tags {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-top: var(--spacing-04);
+  margin: 0 var(--spacing-05) calc(-1 * var(--spacing-03));
+
+  .tag {
+    margin-right: var(--spacing-03);
+    margin-bottom: var(--spacing-03);
   }
 }
 

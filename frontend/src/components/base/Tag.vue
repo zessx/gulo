@@ -53,8 +53,7 @@ export default {
     margin-left: var(--spacing-03);
   }
 
-  &:hover,
-  &:focus {
+  &:hover {
     outline: none;
     background-color: var(--grey-10);
   }
@@ -62,6 +61,7 @@ export default {
   &.active {
     color: var(--primary-60);
     background-color: var(--primary-40);
+    box-shadow: none;
   }
 
   &[data-type="secondary"] {
