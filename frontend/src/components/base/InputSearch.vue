@@ -1,7 +1,7 @@
 <template>
   <label class="input-search">
     <Icon name="search" />
-    <input type="text" :name="name" v-model="dvalue" :placeholder="placeholder" />
+    <input type="text" autocomplete="off" :name="name" v-model="dvalue" :placeholder="placeholder" />
     <Icon name="cross" class="clear-search" v-on:click.native="dvalue = null" />
   </label>
 </template>

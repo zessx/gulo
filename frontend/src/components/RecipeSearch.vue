@@ -14,6 +14,15 @@
         v-on:keyup.native="typeText"
         v-on:click.native="typeText" />
 
+      <div class="tags">
+        <Tag v-for="tag in this.$store.state.tags.selected" :key="tag.pk"
+          :data-tag="tag.pk" :label="tag.name" :active="true"
+          v-on:click.native="unselectTag" />
+        <Tag v-for="tag in tagsResults" :key="tag.pk"
+          :data-tag="tag.pk" :label="tag.name"
+          v-on:click.native="selectTag"/>
+      </div>
+
       <div class="sorting">
         <h2>{{ $t('search.sort_by') }}</h2>
 
@@ -46,18 +55,36 @@ export default {
       search: {}
     }
   },
+  computed: {
+    tagsResults: function () {
+      let selectedIds = this.$store.state.tags.selected.map(e => e.pk)
+      return this.$store.state.tags.results.filter(
+        tag => !selectedIds.includes(tag.pk)
+      ).slice(0, 5)
+    }
+  },
   methods: {
     typeText: function (event) {
       this.search.text = document.querySelector('[name="search"]').value
+      this.$store.dispatch('tags/getTagsList', this.search.text)
     },
     selectSorting: function (event) {
       let target = event.target.tagName === 'BUTTON' ? event.target : event.target.closest('button')
       const value = target.getAttribute('data-sort')
       this.search.sort = this.search.sort !== value ? value : 'date'
     },
+    selectTag: function (event) {
+      let target = event.target.classList.contains('tag') ? event.target : event.target.closest('.tag')
+      this.$store.dispatch('tags/selectTag', target.getAttribute('data-tag'))
+    },
+    unselectTag: function (event) {
+      let target = event.target.classList.contains('tag') ? event.target : event.target.closest('.tag')
+      this.$store.dispatch('tags/unselectTag', target.getAttribute('data-tag'))
+    },
     validate: function (event) {
       let target = event.target.tagName === 'BUTTON' ? event.target : event.target.closest('button')
       if (!target.disabled) {
+        this.search.tags = this.$store.state.tags.selected.map(e => e.name)
         this.$store.dispatch('recipes/getRecipesList', this.search)
         this.$router.push('/recipes')
       }
@@ -102,6 +129,19 @@ header {
 
   h1 {
     margin: var(--spacing-06) 0;
+  }
+
+  .tags {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: var(--spacing-06) 0;
+
+    .tag {
+      margin-right: var(--spacing-03);
+      margin-bottom: var(--spacing-03);
+    }
   }
 
   .sorting {
