@@ -63,6 +63,8 @@
 
         <Button icon="delete" type="error" class="full centered" :label="$t('recipes.delete')" />
       </div>
+
+      <Button icon="add" size="large" class="add-to-agenda full centered" :label="$t('recipes.add_to_agenda')" />
     </article>
 
     <Navbar page="recipes" />
@@ -131,7 +133,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: var(--spacing-09);
+  padding-bottom: calc(4rem + 2 * var(--spacing-02) + var(--spacing-06));
 
   img {
     display: block;
@@ -291,6 +293,14 @@ header {
   .actions {
     padding: 0 var(--spacing-06);
     width: 100%;
+  }
+
+  .add-to-agenda {
+    position: fixed;
+    bottom: calc(4rem + 2 * var(--spacing-02));
+    left: 0;
+    right: 0;
+    border-radius: 0;
   }
 }
 </style>

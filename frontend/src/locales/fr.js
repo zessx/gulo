@@ -11,6 +11,7 @@ export const messages = {
     new: 'Nouvelle recette',
     edit: 'Modifier',
     delete: 'Supprimer la recette',
+    add_to_agenda: 'Ajouter la recette au menu',
     making: 'Préparation',
     starter: 'Entrée | Entrées',
     main_course: 'Plat | Plats',

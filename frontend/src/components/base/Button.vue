@@ -32,6 +32,7 @@ export default {
 <style lang="scss" scoped>
 button {
   display: flex;
+  align-items: center;
   padding: var(--spacing-03);
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
@@ -79,11 +80,12 @@ button {
   &[data-size="large"] {
     padding: var(--spacing-04);
     line-height: 1.5em;
+    font-size: 1.125rem;
     height: calc(1.5em + 2 * var(--spacing-04));
 
     i {
-      height: 1.5em;
-      width: 1.5em;
+      height: 1.2em;
+      width: 1.2em;
     }
   }
 

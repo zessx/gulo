@@ -11,6 +11,7 @@ export const messages = {
     new: 'New recipe',
     edit: 'Edit',
     delete: 'Delete the recipe',
+    add_to_agenda: 'Add the recipe to the agenda',
     making: 'Making',
     starter: 'Starter | Starters',
     main_course: 'Main course | Main courses',
