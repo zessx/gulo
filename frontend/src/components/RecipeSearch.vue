@@ -87,8 +87,9 @@ export default {
       let target = event.target.tagName === 'BUTTON' ? event.target : event.target.closest('button')
       if (!target.disabled) {
         this.search.tags = this.$store.state.tags.selected.map(e => e.name)
-        this.$store.dispatch('recipes/getRecipesList', this.search)
-        this.$router.push('/recipes')
+        this.$store.dispatch('recipes/getRecipesList', this.search).then(() => {
+          this.$router.push('/recipes')
+        })
       }
     },
     cancel: function () {
