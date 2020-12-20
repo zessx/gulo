@@ -53,7 +53,9 @@
       <div class="tags" v-if="recipe.tags.length > 0">
         <Separator />
 
-        <Tag v-for="tag in recipe.tags" :key="tag.pk" data-type="secondary" :label="tag.name"/>
+        <Tag v-for="tag in recipe.tags" :key="tag.pk" data-type="secondary"
+          :data-tag="tag.pk" :label="tag.name"
+          v-on:click.native="searchByTag" />
       </div>
 
       <div class="actions">
@@ -83,6 +85,20 @@ export default {
     },
     formatDishIcon: function (dish) {
       return formatDishIcon({ dish })
+    },
+    searchByTag: function (event) {
+      let target = event.target.classList.contains('tag') ? event.target : event.target.closest('.tag')
+      this.$store.commit('tags/clearSelected')
+      this.$store.dispatch('tags/selectTag', target.getAttribute('data-tag')).then(() => {
+        this.$store.dispatch('recipes/getRecipesList', {
+          dish: this.$store.state.recipes.search.dish,
+          text: null,
+          tags: [target.getAttribute('data-tag')],
+          sort: 'date'
+        }).then(() => {
+          this.$router.push('/recipes')
+        })
+      })
     }
   },
   created () {
