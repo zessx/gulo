@@ -16,7 +16,16 @@ export const messages = {
     starter: 'Starter | Starters',
     main_course: 'Main course | Main courses',
     dessert: 'Dessert | Desserts',
-    no_results: 'Oow… No results for you search!'
+    no_results: 'Oow… No results for you search!',
+    placeholders: {
+      title: 'Title',
+      duration: 'Duration',
+      portions: 'Portions',
+      ingredient: 'Ingredients',
+      quantity: 'Quantity',
+      step: 'Step details',
+      tag: 'Tag'
+    }
   },
   ingredients: {
     units: {

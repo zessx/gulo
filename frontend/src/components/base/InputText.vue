@@ -1,14 +1,12 @@
 <template>
-  <label class="input-search">
-    <Icon name="search" />
+  <label class="input-text">
     <input type="text" autocomplete="off" :name="name" v-model="dvalue" :placeholder="placeholder" />
-    <Icon name="cross" class="clear-search" v-on:click.native="dvalue = null" />
   </label>
 </template>
 
 <script>
 export default {
-  name: 'InputSearch',
+  name: 'InputText',
   data: function () {
     return {
       dvalue: null
@@ -33,51 +31,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input-search {
+.input-text {
   display: flex;
   position: relative;
   align-items: center;
   width: 100%;
   padding: var(--spacing-04) var(--spacing-03);
   border-radius: 5px;
-  background-color: var(--white);
-
-  i:not(.clear-search) {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: var(--spacing-03);
-  }
-
-  i.clear-search {
-    display: none;
-    position: absolute;
-    top: var(--spacing-04);
-    right: var(--spacing-04);
-    transform: translateY(-0.25em);
-    height: 2em;
-    width: 2em;
-    padding: 0.5em;
-    border-radius: 5px;
-    background: var(--background-30);
-  }
 
   input {
     flex-grow: 1;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 1em;
+    line-height: 1.5em;
     border: none;
     outline: none;
     letter-spacing: 0.2px;
     font-weight: bold;
+    color: var(--grey-70);
+    border-bottom: dashed 2px var(--background-40);
+    background: none;
     width: 100%;
 
     &::placeholder {
       color: var(--background-40);
     }
-  }
-
-  &:not(.hide-clear-search) input:not(:placeholder-shown) + i.clear-search {
-    display: block;
   }
 }
 </style>

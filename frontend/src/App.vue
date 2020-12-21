@@ -78,6 +78,11 @@ body {
   margin: 0;
 }
 
+input,
+textarea {
+  font-family: 'Arimo', sans-serif;
+}
+
 a {
   color: inherit;
   text-decoration: none;

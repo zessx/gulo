@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Styleguide from '@/components/Styleguide.vue'
 import Recipes from '@/components/Recipes.vue'
 import RecipeDetail from '@/components/RecipeDetail.vue'
+import RecipeEdit from '@/components/RecipeEdit.vue'
 import RecipeSearch from '@/components/RecipeSearch.vue'
 import Agenda from '@/components/Agenda.vue'
 import Shopping from '@/components/Shopping.vue'
@@ -12,6 +13,7 @@ const routes = [
   { path: '/', redirect: '/recipes' },
   { path: '/recipes', component: Recipes },
   { path: '/recipes/search', component: RecipeSearch },
+  { path: '/recipes/:id/edit', component: RecipeEdit },
   { path: '/recipes/:id', component: RecipeDetail },
   { path: '/agenda', component: Agenda },
   { path: '/shopping', component: Shopping },

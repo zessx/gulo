@@ -4,7 +4,7 @@
       <router-link to="/recipes">
         <Icon name="arrow" class="back reversed" />
       </router-link>
-      <router-link to="/recipes">
+      <router-link v-if="recipe" :to="'/recipes/' + recipe.pk + '/edit'">
         <Button icon="edit" type="secondary" class="edit" :label="$t('recipes.edit')" />
       </router-link>
     </header>
@@ -32,7 +32,7 @@
 
       <div class="ingredients" v-if="recipe.ingredients.length > 0">
         <ul>
-          <li v-for="ingredient in recipe.ingredients" :key="ingredient.id">
+          <li v-for="ingredient in recipe.ingredients" :key="ingredient.pk">
             <span v-if="ingredient.quantity">{{ ingredient.quantity }} </span>
             <span v-if="ingredient.unit">{{ $tc('ingredients.units.' + ingredient.unit, ingredient.quantity) }} </span>
             <span>{{ ingredient.name }}</span>
@@ -46,7 +46,7 @@
 
         <h2>{{ $t('recipes.making') }}</h2>
         <ol>
-          <li v-for="step in recipe.steps" :key="step.id">{{ step.text }}</li>
+          <li v-for="step in recipe.steps" :key="step.pk">{{ step.text }}</li>
         </ol>
       </div>
 
@@ -56,12 +56,6 @@
         <Tag v-for="tag in recipe.tags" :key="tag.pk" data-type="secondary"
           :data-tag="tag.pk" :label="tag.name"
           v-on:click.native="searchByTag" />
-      </div>
-
-      <div class="actions">
-        <Separator v-if="recipe.steps.length == 0 && recipe.tags.length == 0" />
-
-        <Button icon="delete" type="error" class="full centered" :label="$t('recipes.delete')" />
       </div>
 
       <Button icon="add" size="large" class="add-to-agenda full centered" :label="$t('recipes.add_to_agenda')" />
@@ -133,16 +127,16 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: calc(4rem + 2 * var(--spacing-02) + var(--spacing-06));
+  padding-bottom: var(--spacing-06);
 
   img {
     display: block;
     width: 100%;
-    height: 11rem;
+    height: 12rem;
     object-fit: cover;
     object-position: center center;
     border-radius: 8px;
-    padding: var(--spacing-01);
+    padding: var(--spacing-02);
   }
 
   h1 {

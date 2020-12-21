@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "autosize": "^4.0.2",
     "axios": "^0.18.0",
     "lodash": "^4.17.20",
     "register-service-worker": "^1.5.2",

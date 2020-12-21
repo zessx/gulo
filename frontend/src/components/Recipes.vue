@@ -17,7 +17,7 @@
       <Separator />
 
       <ul>
-        <li v-for="dish in dishes" :key="dish">
+        <li v-for="dish in this.$store.state.recipes.dishes" :key="dish">
           <input type="radio" :id="dish" :value="dish" v-model="selectedDish" @change="refresh">
           <label :for="dish">
             <Icon :name="formatDishIcon(dish)" />
@@ -52,12 +52,7 @@ export default {
   name: 'Recipes',
   data: function () {
     return {
-      selectedDish: 'main_course',
-      dishes: [
-        'starter',
-        'main_course',
-        'dessert'
-      ]
+      selectedDish: 'main_course'
     }
   },
   computed: mapState({
@@ -100,7 +95,7 @@ export default {
   .button-new {
     margin-right: var(--spacing-02);
 
-    i { // TODO: ignored
+    ::v-deep i {
       height: 2rem;
       width: 2rem;
       transform: translateY(-0.2rem);
@@ -116,7 +111,7 @@ export default {
   }
 
   .button-search {
-    i.icon { // TODO: ignored
+    ::v-deep i.icon {
       color: var(--background-70);
     }
   }

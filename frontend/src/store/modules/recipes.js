@@ -8,7 +8,12 @@ const state = () => ({
     text: null,
     tags: [],
     sort: 'date'
-  }
+  },
+  dishes: [
+    'starter',
+    'main_course',
+    'dessert'
+  ]
 })
 
 const getters = {}

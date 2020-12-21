@@ -45,6 +45,7 @@ button {
   white-space: nowrap;
   transition: background-color var(--speed-normal);
   height: calc(1em + 2 * var(--spacing-03));
+  cursor: pointer;
 
   i {
     height: 1em;

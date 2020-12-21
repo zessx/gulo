@@ -10,13 +10,23 @@ export const messages = {
   recipes: {
     new: 'Nouvelle recette',
     edit: 'Modifier',
+    validate: 'Valider',
     delete: 'Supprimer la recette',
     add_to_agenda: 'Ajouter la recette au menu',
     making: 'Préparation',
     starter: 'Entrée | Entrées',
     main_course: 'Plat | Plats',
     dessert: 'Dessert | Desserts',
-    no_results: 'Ooh… Aucun résultat trouvé !'
+    no_results: 'Ooh… Aucun résultat trouvé !',
+    placeholders: {
+      title: 'Titre',
+      duration: 'Durée',
+      portions: 'Portions',
+      ingredient: 'Ingrédients',
+      quantity: 'Quantité',
+      step: 'Détails de l\'étape',
+      tag: 'Tag'
+    }
   },
   ingredients: {
     units: {
