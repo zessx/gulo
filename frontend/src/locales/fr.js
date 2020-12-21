@@ -32,7 +32,8 @@ export const messages = {
     },
     delete_confirm: {
       title: 'Vous allez supprimer cette recette',
-      label: 'Confirmer'
+      label: 'Confirmer',
+      notice: 'La recette a bien été supprimée'
     }
   },
   ingredients: {

@@ -68,21 +68,23 @@ export default {
     justify-content: center;
     position: relative;
     z-index: 2;
-    margin: var(--spacing-02);
+    margin: var(--spacing-06);
     padding: var(--spacing-06) var(--spacing-07);
     background: var(--white);
     border-radius: 5px;
     text-align: center;
 
     h3 {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       margin: 0 0 var(--spacing-08);
     }
 
     .buttons {
       display: flex;
-      justify-content: space-between;
-      width: 100%;
+
+      button + button {
+        margin-left: var(--spacing-03);
+      }
     }
   }
 

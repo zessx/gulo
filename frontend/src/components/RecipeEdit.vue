@@ -202,6 +202,12 @@ export default {
       axios.delete('/api/recipes/' + this.recipe.pk)
         .then(response => {
           this.$store.commit('recipes/clearRecipe')
+          this.$store.commit('notices/addNotice', {
+            icon: 'check',
+            type: 'success',
+            message: 'Cette recette à été supprimée (TODO)'
+            // message: $t('recipes.delete_confirm.notice')
+          })
           this.$router.push('/recipes')
         })
         .catch(e => { console.log(e) })

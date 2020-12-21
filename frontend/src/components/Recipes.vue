@@ -35,6 +35,8 @@
         v-on:click.native="unselectTag" />
     </div>
 
+    <Notices />
+
     <div class="results">
       <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
       <Message :message="$t('recipes.no_results')" class="centered" v-if="recipes.length == 0" />
@@ -98,7 +100,6 @@ export default {
     ::v-deep i {
       height: 2rem;
       width: 2rem;
-      transform: translateY(-0.2rem);
     }
 
     &.grow {
@@ -181,6 +182,10 @@ export default {
     margin-right: var(--spacing-03);
     margin-bottom: var(--spacing-03);
   }
+}
+
+.notices {
+  padding: 0 var(--spacing-06) var(--spacing-04);
 }
 
 .results {
