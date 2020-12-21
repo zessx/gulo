@@ -7,6 +7,9 @@ export const messages = {
     agenda: 'Menu',
     shopping: 'Courses'
   },
+  confirm: {
+    cancel: 'Annuler'
+  },
   recipes: {
     new: 'Nouvelle recette',
     edit: 'Modifier',
@@ -26,6 +29,10 @@ export const messages = {
       quantity: 'Quantité',
       step: 'Détails de l\'étape',
       tag: 'Tag'
+    },
+    delete_confirm: {
+      title: 'Vous allez supprimer cette recette',
+      label: 'Confirmer'
     }
   },
   ingredients: {

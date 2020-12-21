@@ -63,6 +63,10 @@ export default {
   --speed-fast: 0.1s;
   --speed-normal: 0.3s;
   --speed-slow: 0.5s;
+
+  /** z-index depth **/
+  --depth-navbar: 2;
+  --depth-popup: 3;
 }
 
 * {

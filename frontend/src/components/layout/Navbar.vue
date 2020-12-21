@@ -51,6 +51,7 @@ nav {
   padding: var(--spacing-02);
   box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: var(--white);
+  z-index: var(--depth-navbar);
 }
 
 ul {

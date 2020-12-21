@@ -81,7 +81,16 @@
 -->
 
       <div class="actions">
-        <Button icon="delete" type="error" class="full centered" :label="$t('recipes.delete')" />
+        <Button icon="delete" type="error" class="full centered"
+          :label="$t('recipes.delete')"
+          v-on:click.native="askDeletion" />
+
+        <PopupConfirm icon="delete" type="error"
+          :title="$t('recipes.delete_confirm.title')"
+          :label="$t('recipes.delete_confirm.label')"
+          v-if="deleting"
+          v-on:cancel="cancelDeletion"
+          v-on:confirm="confirmDeletion" />
       </div>
     </article>
 
@@ -91,6 +100,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import axios from 'axios'
 import formatDuration from '@/utils/formatDuration'
 import formatDishIcon from '@/utils/formatDishIcon'
 import randomId from '@/utils/randomId'
@@ -99,7 +109,11 @@ export default {
   name: 'RecipeEdit',
   data: function () {
     return {
+      // Statuses
       loaded: false,
+      deleting: false,
+
+      // Data
       title: null,
       picture: null,
       dish: null,
@@ -108,6 +122,8 @@ export default {
       tags: [],
       ingredients: [],
       steps: [],
+
+      // Utils
       draggingElement: null
     }
   },
@@ -121,6 +137,8 @@ export default {
     formatDishIcon: function (dish) {
       return formatDishIcon({ dish })
     },
+
+    // Steps
     dragStepStart: function (event) {
       this.draggingElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
       event.dataTransfer.effectAllowed = 'move'
@@ -171,6 +189,22 @@ export default {
         step.order = Array.prototype.indexOf.call(stepNode.parentNode.childNodes, stepNode)
         return step
       })
+    },
+
+    // Recipe deletion
+    askDeletion: function () {
+      this.deleting = true
+    },
+    cancelDeletion: function () {
+      this.deleting = false
+    },
+    confirmDeletion: function () {
+      axios.delete('/api/recipes/' + this.recipe.pk)
+        .then(response => {
+          this.$store.commit('recipes/clearRecipe')
+          this.$router.push('/recipes')
+        })
+        .catch(e => { console.log(e) })
     }
   },
   created () {
