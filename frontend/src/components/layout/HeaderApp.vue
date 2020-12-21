@@ -1,6 +1,8 @@
 <template>
   <header>
-    <h1>Gulo</h1>
+    <h1 aria-label="Gulo">
+      <img src="/img/logo.png" alt="Gulo" />
+    </h1>
     <a href="#" class="settings">
       <Icon name="settings" />
     </a>
@@ -22,7 +24,10 @@ header {
     width: 100%;
     margin: 0;
     text-align: center;
-    font-size: 2rem;
+
+    img {
+      height: 3rem;
+    }
   }
 
   .settings {
