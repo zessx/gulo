@@ -62,12 +62,13 @@
         <h2>{{ $t('recipes.making') }}</h2>
         <ol v-on:dragover="dragStepOver" v-on:drop="dropStep">
           <li v-for="step in steps" :key="step.pk" :id="'step/' + step.pk" draggable="true" v-on:dragstart="dragStepStart">
-            <Textarea :name="'step/' + step.pk" :value="step.text" :placeholder="$t('recipes.placeholders.step')"/>
+            <Icon name="drag" />
+            <Textarea :name="'step/' + step.pk" :value="step.text" :placeholder="$t('recipes.placeholders.step')" />
           </li>
         </ol>
 
         <Button icon="add" type="secondary" class="add-step full centered"
-          v-on:click.native="addStep"/>
+          v-on:click.native="addStep" />
       </div>
 
 <!--
@@ -376,33 +377,29 @@ header {
     }
 
     li {
+      display: flex;
+      align-items: center;
       position: relative;
-      counter-increment: li;
       margin: var(--spacing-03) 0;
       line-height: 1.33em;
-      padding-left: var(--spacing-06);
+      padding-left: var(--spacing-04);
       background-color: var(--white);
       border-radius: 10px;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
       transition: background-color var(--speed-normal);
 
-      .textarea,
-      &::before {
-        opacity: 1;
-        filter: grayscale(0);
-        transition: opacity var(--speed-normal), filter var(--speed-normal);
+      .textarea {
+        padding-left: var(--spacing-06);
       }
 
-      &::before {
-        content: counter(li);
-        display: inline-block;
-        position: absolute;
-        top: var(--spacing-04);
-        left: var(--spacing-04);
-        margin-top: -2px;
-        font-size: 0.875rem;
-        font-weight: bold;
-        color: var(--primary-50);
+      i {
+        color: var(--background-40);
+      }
+
+      .textarea,
+      i {
+        opacity: 1;
+        transition: opacity var(--speed-normal);
       }
 
       &.dragging {
@@ -410,8 +407,7 @@ header {
 
         .textarea,
         &::before {
-          opacity: 0.2;
-          filter: grayscale(1);
+          opacity: 0;
         }
       }
     }
