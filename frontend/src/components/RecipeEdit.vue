@@ -18,7 +18,7 @@
             <input type="radio" name="dish" :id="_dish" :value="_dish" :checked="dish == _dish">
             <label :for="_dish">
               <Icon :name="formatDishIcon(_dish)" />
-              <p>{{ $tc('recipes.' + _dish, 2) }}</p>
+              <p>{{ $tc('recipes.' + _dish, 1) }}</p>
             </label>
           </li>
         </ul>
@@ -43,18 +43,61 @@
         </div>
       </div>
 
-<!--
-      <div class="ingredients" v-if="recipe.ingredients.length > 0">
+      <div class="ingredients">
         <ul>
-          <li v-for="ingredient in recipe.ingredients" :key="ingredient.id">
-            <span v-if="ingredient.quantity">{{ ingredient.quantity }} </span>
-            <span v-if="ingredient.unit">{{ $tc('ingredients.units.' + ingredient.unit, ingredient.quantity) }} </span>
-            <span>{{ ingredient.name }}</span>
+          <li v-for="ingredient in ingredients" :key="ingredient.pk"
+            class="ingredient"
+            :data-ingredient="ingredient.pk"
+            v-on:mouseleave="unfocusIngredient">
+            <InputText class="input-ingredient-name" :name="'ingredient/' + ingredient.pk + '/name'"
+              :placeholder="$t('recipes.placeholders.ingredient')"
+              :value="ingredient.name"
+              v-on:mouseover.native="focusIngredientName" />
+            <InputNumber class="input-ingredient-quantity" :name="'ingredient/' + ingredient.pk + '/quantity'" min="0"
+              :placeholder="$t('recipes.placeholders.quantity')"
+              :value="ingredient.quantity"
+              v-on:change.native="updateGhostField" />
+            <InputText class="input-ingredient-quantity-ghost" :name="'ingredient/' + ingredient.pk + '/quantity-ghost'"
+              :placeholder="$t('recipes.placeholders.quantity')"
+              :value="ingredient.quantity ? ingredient.quantity + $tc('ingredients.units.' + ingredient.unit, ingredient.quantity) : null"
+              v-on:mouseover.native="focusIngredientUnit" />
+
+            <ul class="units">
+              <li key="none">
+                <input type="radio"
+                  :name="'ingredient/' + ingredient.pk + '/unit'"
+                  :id="'ingredient/' + ingredient.pk + '/unit/none'"
+                  value=""
+                  :checked="ingredient.unit == null"
+                  v-on:change="updateGhostField">
+                <label :for="'ingredient/' + ingredient.pk + '/unit/none'">
+                  <Icon name="none" />
+                </label>
+              </li>
+              <li v-for="unit in units" :key="unit">
+                <input type="radio"
+                  :name="'ingredient/' + ingredient.pk + '/unit'"
+                  :id="'ingredient/' + ingredient.pk + '/unit/' + unit"
+                  :value="unit"
+                  :checked="ingredient.unit == unit"
+                  v-on:change="updateGhostField">
+                <label :for="'ingredient/' + ingredient.pk + '/unit/' + unit">
+                  <p>{{ $tc('ingredients.units.' + unit, 1) }}</p>
+                </label>
+              </li>
+            </ul>
+
+            <Button icon="delete" type="error" size="small" class="delete-ingredient full centered"
+              :label="$t('recipes.delete_ingredient')"
+              v-on:click.native="deleteIngredient" />
           </li>
         </ul>
-        <Button icon="list" type="secondary" size="large" />
+
+        <div class="add-ingredient">
+          <Button icon="add" type="secondary" class="full centered"
+            v-on:click.native="addIngredient" />
+        </div>
       </div>
--->
 
       <div class="steps">
         <Separator />
@@ -125,7 +168,17 @@ export default {
       steps: [],
 
       // Utils
-      draggingElement: null
+      draggingElement: null,
+      units: [
+        'cl',
+        'l',
+        'g',
+        'kg',
+        'tsp',
+        'tbs',
+        'pinch',
+        'cup'
+      ]
     }
   },
   computed: mapState({
@@ -137,6 +190,66 @@ export default {
     },
     formatDishIcon: function (dish) {
       return formatDishIcon({ dish })
+    },
+
+    // Ingredients
+    addIngredient: function () {
+      this.ingredients.push({
+        pk: randomId(8),
+        name: null,
+        quantity: null,
+        unit: null
+      })
+    },
+    deleteIngredient: function (event) {
+      const ingredientElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
+      if (ingredientElement) {
+        const id = ingredientElement.getAttribute('data-ingredient')
+        this.ingredients = this.ingredients.filter(
+          ingredient => ingredient.pk !== id
+        )
+      }
+    },
+    focusIngredientName: function (event) {
+      const ingredientElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
+      if (ingredientElement) {
+        ingredientElement.classList.add('show-delete-button')
+        // Delays class removal to avoid misclicks
+        setTimeout(function () {
+          ingredientElement.classList.remove('show-units')
+        }, 1)
+      }
+    },
+    focusIngredientUnit: function (event) {
+      const ingredientElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
+      if (ingredientElement) {
+        ingredientElement.classList.add('show-units')
+        // Delays class removal to avoid misclicks
+        setTimeout(function () {
+          ingredientElement.classList.remove('show-delete-button')
+        }, 1)
+      }
+    },
+    unfocusIngredient: function (event) {
+      const ingredientElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
+      if (ingredientElement) {
+        // Delays class removal to avoid misclicks
+        setTimeout(function () {
+          ingredientElement.classList.remove('show-units')
+          ingredientElement.classList.remove('show-delete-button')
+        }, 1)
+      }
+    },
+    updateGhostField: function (event) {
+      const ingredientElement = event.target.tagName === 'LI' && event.target.classList.contains('ingredient')
+        ? event.target
+        : event.target.closest('li.ingredient')
+      if (ingredientElement) {
+        const ghost = ingredientElement.querySelector('.input-ingredient-quantity-ghost input')
+        const fieldQuantity = ingredientElement.querySelector('.input-ingredient-quantity input')
+        const fieldUnit = ingredientElement.querySelector('.units input:checked')
+        ghost.value = [fieldQuantity.value, this.$tc('ingredients.units.' + fieldUnit.value, fieldQuantity.value)].join(' ')
+      }
     },
 
     // Steps
@@ -206,8 +319,7 @@ export default {
           this.$store.commit('notices/addNotice', {
             icon: 'check',
             type: 'success',
-            message: 'Cette recette à été supprimée (TODO)'
-            // message: $t('recipes.delete_confirm.notice')
+            message: 'recipes.delete_confirm.notice'
           })
           this.$router.push('/recipes')
         })
@@ -224,6 +336,10 @@ export default {
       this.tags = this.$store.state.recipes.recipe.tags
       this.ingredients = this.$store.state.recipes.recipe.ingredients
       this.steps = this.$store.state.recipes.recipe.steps
+
+      if (this.ingredients.length === 0) {
+        this.addIngredient()
+      }
 
       this.loaded = true
     })
@@ -352,9 +468,178 @@ header {
       width: 50%;
     }
 
+    .portions .input-number {
+      padding-right: 0;
+    }
+
     i {
       color: var(--background-40);
       font-size: 1.25rem;
+    }
+  }
+
+  .ingredients {
+    width: 100%;
+
+    > ul > li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      position: relative;
+      width: calc(100% - 1.25rem - var(--spacing-02));
+      margin-left: calc(1.25rem + var(--spacing-02));
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: calc(var(--spacing-03) + (1.5rem - 0.5rem) / 2);
+        left: calc(-0.375rem - 0.5rem - var(--spacing-02));
+        display: block;
+        flex-shrink: 0;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background-color: var(--primary-50);
+      }
+
+      .input-ingredient-name {
+        padding: var(--spacing-03) 0;
+        width: 60%;
+      }
+
+      .input-ingredient-quantity,
+      .input-ingredient-quantity-ghost {
+        position: relative;
+        padding: var(--spacing-03) 0;
+        padding-left: var(--spacing-04);
+        width: 40%;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: var(--spacing-04);
+          left: var(--spacing-02);
+          height: 1em;
+          display: inline-block;
+          border-left: 1px solid var(--background-40);
+        }
+
+        ::v-deep input {
+          text-align: right;
+        }
+      }
+
+      .input-ingredient-quantity {
+        display: none;
+      }
+
+      .input-ingredient-quantity-ghost {
+        display: flex;
+      }
+
+      .units {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        padding: calc(var(--spacing-03) / 2);
+        background-color: var(--background-20);
+
+        li {
+          margin: calc(var(--spacing-03) / 2);
+        }
+
+        input[type="radio"] {
+          display: none;
+
+          &:checked + label {
+            color: var(--primary-60);
+            background-color: var(--primary-40);
+            box-shadow: none;
+
+            i {
+              color: var(--primary-50);
+            }
+          }
+        }
+
+        label {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+          color: var(--grey-70);
+          background: var(--white);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+          height: 2.5rem;
+          padding: 0 var(--spacing-03);
+
+          i {
+            color: var(--background-50);
+            height: 1.25em;
+            width: 1.25em;
+          }
+
+          p {
+            margin: 0;
+            margin-top: var(--spacing-01);
+            font-size: 0.875em;
+            font-weight: bold;
+          }
+
+          + li {
+            margin-left: var(--spacing-02);
+          }
+        }
+      }
+
+      .delete-ingredient,
+      .units {
+        width: 100%;
+        display: none;
+      }
+
+      &.show-delete-button {
+        .delete-ingredient {
+          display: flex;
+        }
+      }
+
+      &.show-units {
+        .units,
+        .input-ingredient-quantity {
+          display: flex;
+        }
+
+        .input-ingredient-quantity-ghost {
+          display: none;
+        }
+      }
+    }
+
+    .add-ingredient {
+      display: flex;
+      align-items: center;
+      padding-top: var(--spacing-03);
+      position: relative;
+      width: calc(100% - 1.25rem - var(--spacing-02));
+      margin-left: calc(1.25rem + var(--spacing-02));
+
+      &::before {
+        top: calc(1rem - 0.5rem / 2 - 2px + var(--spacing-03));
+        background-color: var(--grey-30);
+      }
+
+      button {
+        transition: background-color var(--speed-normal), border-color var(--speed-normal);
+        border: dashed 2px;
+        border-color: var(--background-40);
+
+        &:hover,
+        &:focus {
+          border-color: var(--background-60);
+        }
+      }
     }
   }
 

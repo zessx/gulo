@@ -4,13 +4,11 @@
       :key="notice.id"
       :icon="notice.icon"
       :type="notice.type"
-      :message="notice.message" />
+      :message="$t(notice.message)" />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   name: 'Notices',
   data: function () {

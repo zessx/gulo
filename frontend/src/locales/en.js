@@ -13,7 +13,10 @@ export const messages = {
   recipes: {
     new: 'New recipe',
     edit: 'Edit',
+    validate: 'Validate',
     delete: 'Delete the recipe',
+    delete_ingredient: 'Delete the ingredient',
+    delete_step: 'Delete',
     add_to_agenda: 'Add the recipe to the agenda',
     making: 'Making',
     starter: 'Starter | Starters',
@@ -24,7 +27,7 @@ export const messages = {
       title: 'Title',
       duration: 'Duration',
       portions: 'Portions',
-      ingredient: 'Ingredients',
+      ingredient: 'Ingredient',
       quantity: 'Quantity',
       step: 'Step details',
       tag: 'Tag'

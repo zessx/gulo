@@ -1,4 +1,3 @@
-import axios from 'axios'
 import randomId from '@/utils/randomId'
 
 const state = () => ({
@@ -14,7 +13,6 @@ const mutations = {
       notice.type = 'info'
     }
     state.all.push(notice)
-    console.log(state.all)
   },
   removeNotice (state, id) {
     state.all = state.all.filter(notice => notice.id !== id)

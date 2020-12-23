@@ -15,6 +15,8 @@ export const messages = {
     edit: 'Modifier',
     validate: 'Valider',
     delete: 'Supprimer la recette',
+    delete_ingredient: 'Supprimer l\'ingrédient',
+    delete_step: 'Supprimer',
     add_to_agenda: 'Ajouter la recette au menu',
     making: 'Préparation',
     starter: 'Entrée | Entrées',
@@ -25,7 +27,7 @@ export const messages = {
       title: 'Titre',
       duration: 'Durée',
       portions: 'Portions',
-      ingredient: 'Ingrédients',
+      ingredient: 'Ingrédient',
       quantity: 'Quantité',
       step: 'Détails de l\'étape',
       tag: 'Tag'
@@ -42,8 +44,8 @@ export const messages = {
       l: 'l | l',
       g: 'g | g',
       kg: 'kg | kg',
-      ts: 'cc | cc',
-      tbsp: 'cs | cs',
+      tsp: 'cc | cc',
+      tbs: 'cs | cs',
       pinch: 'pincée | pincées',
       cup: 'tasse | tasses'
     }

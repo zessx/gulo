@@ -84,6 +84,7 @@ body {
 
 input,
 textarea {
+  padding: 0;
   font-family: 'Arimo', sans-serif;
 }
 
