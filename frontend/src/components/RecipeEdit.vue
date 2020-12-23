@@ -340,6 +340,9 @@ export default {
       if (this.ingredients.length === 0) {
         this.addIngredient()
       }
+      if (this.steps.length === 0) {
+        this.addStep()
+      }
 
       this.loaded = true
     })
