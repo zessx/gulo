@@ -104,9 +104,19 @@
 
         <h2>{{ $t('recipes.making') }}</h2>
         <ol v-on:dragover="dragStepOver" v-on:drop="dropStep">
-          <li v-for="step in steps" :key="step.pk" :id="'step/' + step.pk" draggable="true" v-on:dragstart="dragStepStart">
-            <Icon name="drag" />
-            <Textarea :name="'step/' + step.pk" :value="step.text" :placeholder="$t('recipes.placeholders.step')" />
+          <li v-for="step in steps" :key="step.pk"
+            draggable="true"
+            :id="'step/' + step.pk"
+            :data-step="step.pk"
+            v-on:dragstart="dragStepStart"
+            v-on:mouseenter="focusStep"
+            v-hammer:swipe="swipeStep">
+            <div class="step">
+              <Icon name="drag" />
+              <Textarea :name="'step/' + step.pk" :value="step.text" :placeholder="$t('recipes.placeholders.step')" />
+            </div>
+            <Button icon="delete" type="error" size="large" class="delete-step vertical centered"
+              v-on:click.native="deleteStep" />
           </li>
         </ol>
 
@@ -302,6 +312,35 @@ export default {
         const stepNode = document.getElementById('step/' + step.pk)
         step.order = Array.prototype.indexOf.call(stepNode.parentNode.childNodes, stepNode)
         return step
+      })
+    },
+    deleteStep: function (event) {
+      const stepElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
+      if (stepElement) {
+        const id = stepElement.getAttribute('data-step')
+        this.steps = this.steps.filter(
+          step => step.pk !== id
+        )
+      }
+    },
+    swipeStep: function (event) {
+      event.preventDefault()
+      const stepElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
+      if (stepElement) {
+        if (event.direction === 2) {
+          stepElement.classList.add('show-delete-button')
+        } else if (event.direction === 4) {
+          stepElement.classList.remove('show-delete-button')
+        }
+      }
+    },
+    focusStep: function (event) {
+      const stepElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
+      let elements = document.querySelectorAll('.show-delete-button')
+      elements.forEach(function (element) {
+        if (stepElement !== element) {
+          element.classList.remove('show-delete-button')
+        }
       })
     },
 
@@ -662,13 +701,30 @@ header {
       counter-reset: li;
       margin-bottom: 0;
       padding: 0;
+
+      > li {
+        display: flex;
+        margin: var(--spacing-03) 0;
+        width: calc(100% + var(--spacing-03) + 1.2rem + 2 * var(--spacing-04)); // Card + Delete button
+        transform: translateX(0px);
+        transition: transform var(--speed-normal);
+
+        &.show-delete-button {
+          transform: translateX(calc(-1.2rem - var(--spacing-03) - 2 * var(--spacing-04)));
+
+          .delete-step {
+            opacity: 1;
+          }
+        }
+      }
     }
 
-    li {
+    .step {
       display: flex;
+      flex-shrink: 0;
       align-items: center;
       position: relative;
-      margin: var(--spacing-03) 0;
+      width: calc(100% - var(--spacing-03) - 1.2rem - 2 * var(--spacing-04));
       line-height: 1.33em;
       padding-left: var(--spacing-04);
       background-color: var(--white);
@@ -698,6 +754,12 @@ header {
           opacity: 0;
         }
       }
+    }
+
+    .delete-step {
+      margin-left: var(--spacing-03);
+      opacity: 0;
+      transition: opacity var(--speed-normal);
     }
 
     .add-step {

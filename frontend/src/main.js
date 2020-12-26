@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import { VueHammer } from 'vue2-hammer'
 import store from './store'
 import router from '@/router'
 
@@ -16,6 +17,11 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 Vue.config.productionTip = false
+
+/**
+ * Touch gestures
+ */
+Vue.use(VueHammer)
 
 /**
  * Internationalization
