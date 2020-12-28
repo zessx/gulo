@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import { VueHammer } from 'vue2-hammer'
+import Hammer from 'hammerjs'
 import store from './store'
 import router from '@/router'
 
@@ -22,6 +23,14 @@ Vue.config.productionTip = false
  * Touch gestures
  */
 Vue.use(VueHammer)
+VueHammer.config.swipe = {
+  direction: Hammer.DIRECTION_HORIZONTAL
+}
+VueHammer.config.pan = { enabled: false }
+VueHammer.config.pinch = { enabled: false }
+VueHammer.config.press = { enabled: false }
+VueHammer.config.rotate = { enabled: false }
+VueHammer.config.tap = { enabled: false }
 
 /**
  * Internationalization

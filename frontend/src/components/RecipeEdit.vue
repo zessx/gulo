@@ -158,6 +158,7 @@ import axios from 'axios'
 import formatDuration from '@/utils/formatDuration'
 import formatDishIcon from '@/utils/formatDishIcon'
 import randomId from '@/utils/randomId'
+import Hammer from 'hammerjs'
 
 export default {
   name: 'RecipeEdit',
@@ -264,12 +265,14 @@ export default {
 
     // Steps
     dragStepStart: function (event) {
+      console.log('drag start')
       this.draggingElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.setData('text/plain', null)
       this.draggingElement.classList.add('dragging')
     },
     dragStepOver: function (event) {
+      console.log('drag over')
       event.preventDefault()
       const target = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
       if (!target) {
@@ -282,6 +285,7 @@ export default {
       }
     },
     dropStep: function () {
+      console.log('drop')
       this.draggingElement.classList.remove('dragging')
       this.draggingElement = null
       this.reorderSteps()
@@ -327,9 +331,15 @@ export default {
       event.preventDefault()
       const stepElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
       if (stepElement) {
-        if (event.direction === 2) {
+        let elements = document.querySelectorAll('.show-delete-button')
+        elements.forEach(function (element) {
+          if (stepElement !== element) {
+            element.classList.remove('show-delete-button')
+          }
+        })
+        if (event.direction === Hammer.DIRECTION_LEFT) {
           stepElement.classList.add('show-delete-button')
-        } else if (event.direction === 4) {
+        } else if (event.direction === Hammer.DIRECTION_RIGHT) {
           stepElement.classList.remove('show-delete-button')
         }
       }
@@ -415,6 +425,7 @@ header {
   align-items: center;
   padding: 0 var(--spacing-06);
   padding-bottom: calc(4rem + 2 * var(--spacing-02) + var(--spacing-06));
+  overflow-x: hidden;
 
   img {
     display: block;
