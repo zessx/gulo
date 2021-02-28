@@ -127,7 +127,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: var(--spacing-06);
+  padding-bottom: calc(1.68em + 2.5 * var(--spacing-04));
 
   img {
     display: block;
