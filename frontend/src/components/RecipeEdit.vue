@@ -727,6 +727,17 @@ header {
             opacity: 1;
           }
         }
+
+        &.dragging {
+          .step {
+            background: var(--background-30);
+
+            .textarea,
+            &::before {
+              opacity: 0;
+            }
+          }
+        }
       }
     }
 
@@ -755,15 +766,6 @@ header {
       i {
         opacity: 1;
         transition: opacity var(--speed-normal);
-      }
-
-      &.dragging {
-        background: var(--background-30);
-
-        .textarea,
-        &::before {
-          opacity: 0;
-        }
       }
     }
 
