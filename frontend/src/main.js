@@ -23,6 +23,7 @@ Vue.config.productionTip = false
  * Touch gestures
  */
 Vue.use(VueHammer)
+Hammer.defaults.domEvents = true
 VueHammer.config.swipe = {
   direction: Hammer.DIRECTION_HORIZONTAL
 }

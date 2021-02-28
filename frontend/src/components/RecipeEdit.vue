@@ -109,11 +109,14 @@
             :id="'step/' + step.pk"
             :data-step="step.pk"
             v-on:dragstart="dragStepStart"
-            v-on:mouseenter="focusStep"
-            v-hammer:swipe="swipeStep">
+            v-on:mouseenter="focusStep">
             <div class="step">
               <Icon name="drag" />
-              <Textarea :name="'step/' + step.pk" :value="step.text" :placeholder="$t('recipes.placeholders.step')" />
+              <Textarea
+                :name="'step/' + step.pk"
+                :value="step.text"
+                :placeholder="$t('recipes.placeholders.step')"
+                v-hammer:swipe="swipeStep"/>
             </div>
             <Button icon="delete" type="error" size="large" class="delete-step vertical centered"
               v-on:click.native="deleteStep" />
@@ -265,14 +268,12 @@ export default {
 
     // Steps
     dragStepStart: function (event) {
-      console.log('drag start')
       this.draggingElement = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.setData('text/plain', null)
       this.draggingElement.classList.add('dragging')
     },
     dragStepOver: function (event) {
-      console.log('drag over')
       event.preventDefault()
       const target = event.target.tagName === 'LI' ? event.target : event.target.closest('li')
       if (!target) {
@@ -285,7 +286,6 @@ export default {
       }
     },
     dropStep: function () {
-      console.log('drop')
       this.draggingElement.classList.remove('dragging')
       this.draggingElement = null
       this.reorderSteps()
