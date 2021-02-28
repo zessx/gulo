@@ -127,15 +127,22 @@
           v-on:click.native="addStep" />
       </div>
 
-<!--
       <div class="tags" v-if="recipe.tags.length > 0">
         <Separator />
 
-        <Tag v-for="tag in recipe.tags" :key="tag.pk" data-type="secondary"
-          :data-tag="tag.pk" :label="tag.name"
-          v-on:click.native="searchByTag" />
+        <Tag v-for="tag in this.tags" :key="tag.pk"
+          :data-tag="tag.pk" :data-label="tag.name" :label="tag.name" :active="true"
+          v-on:click.native="unselectTag" />
+
+        <InputText name="tag" class="input-tag"
+          :placeholder="$t('recipes.placeholders.tag')"
+          v-on:keyup.native="searchTags"
+          v-on:click.native="searchTags" />
+
+        <Tag v-for="tag in tagsResults" :key="tag.pk"
+          :data-tag="tag.pk" :data-label="tag.name" :label="tag.name"
+          v-on:click.native="selectTag"/>
       </div>
--->
 
       <div class="actions">
         <Button icon="delete" type="error" class="full centered"
@@ -196,7 +203,13 @@ export default {
     }
   },
   computed: mapState({
-    recipe: state => state.recipes.recipe
+    recipe: state => state.recipes.recipe,
+    tagsResults: function () {
+      let selectedIds = this.tags.map(e => e.pk)
+      return this.$store.state.tags.results.filter(
+        tag => !selectedIds.includes(tag.pk)
+      ).slice(0, 5)
+    }
   }),
   methods: {
     formatDuration: function (duration) {
@@ -352,6 +365,41 @@ export default {
           element.classList.remove('show-delete-button')
         }
       })
+    },
+
+    // Tags
+    searchTags: function (event) {
+      if (event.key === 'Enter') {
+        this.addTag()
+      } else {
+        this.$store.dispatch('tags/getTagsList', document.querySelector('[name="tag"]').value)
+      }
+    },
+    addTag: function () {
+      let input = document.querySelector('[name="tag"]')
+      this.tags.push({
+        pk: randomId(8),
+        name: input.value
+      })
+      input.value = null
+    },
+    selectTag: function (event) {
+      let target = event.target.classList.contains('tag') ? event.target : event.target.closest('.tag')
+      if (target) {
+        this.tags.push({
+          pk: parseInt(target.getAttribute('data-tag')),
+          name: target.getAttribute('data-label')
+        })
+      }
+    },
+    unselectTag: function (event) {
+      let target = event.target.classList.contains('tag') ? event.target : event.target.closest('.tag')
+      if (target) {
+        const id = parseInt(target.getAttribute('data-tag'))
+        this.tags = this.tags.filter(
+          tag => tag.pk !== id
+        )
+      }
     },
 
     // Recipe deletion
@@ -784,6 +832,23 @@ header {
       &:focus {
         border-color: var(--background-60);
       }
+    }
+  }
+
+  .tags {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .tag {
+      margin-right: var(--spacing-03);
+      margin-bottom: var(--spacing-03);
+    }
+
+    .input-tag {
+      padding: var(--spacing-02) 0;
+      margin-bottom: var(--spacing-03);
     }
   }
 
